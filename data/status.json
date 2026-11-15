@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-11-15",
+  "next_mainnet": "Glamsterdam: not set (Sepolia live 6 Oct 2026, Hoodi on hold)",
+  "fork_epochs": { "FULU": 411392, "GLOAS": null, "HEZE": null },
+  "blob_schedule": [{ "epoch": 412672, "max": 15 }, { "epoch": 419072, "max": 21 }],
+  "sources": {
+    "consensus_config": "https://github.com/ethereum/consensus-specs/blob/HEAD/configs/mainnet.yaml",
+    "meta_eips": ["https://eips.ethereum.org/EIPS/eip-7773", "https://eips.ethereum.org/EIPS/eip-8081"]
+  }
+}

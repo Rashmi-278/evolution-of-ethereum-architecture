@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All data · Evolution of Ethereum Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+:root { --bg:#0B0A1F; --ink:#EDEBFF; --muted:#9B97C9; --line:rgba(237,235,255,0.14); --panel:#16123A; --node:#1E1950; --nw:#38E1D6; --ch:#FFC861; --pl:#A891FF; --rs:#9B97C9; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 'Space Grotesk', system-ui, sans-serif; }
+  .wrap { max-width: 1480px; margin: 0 auto; padding: 28px 28px 60px; }
+  h1 { font-size: 28px; line-height:1.15; margin: 0 0 6px; letter-spacing:-0.01em; }
+  .lede { color: var(--muted); margin: 0 0 18px; max-width: 900px; }
+  .lede a { color: inherit; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* timeline */
+  .tl { position: relative; display:grid; grid-template-columns: repeat(13, minmax(0,1fr)); gap: 4px; margin: 8px 0 4px; }
+  .era { display:grid; grid-template-columns: repeat(13, minmax(0,1fr)); gap:4px; margin-top: 14px; }
+  .era span { font-size: 10.5px; font-weight:700; letter-spacing: .09em; color: var(--muted); background: var(--node); border:1px solid var(--line); border-radius: 5px; padding: 2px 8px; white-space: nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .stop { appearance:none; border:1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 9px; padding: 8px 8px 7px; text-align:left; cursor:pointer; min-height: 62px; font: inherit; position:relative; }
+  .stop b { display:block; font-size: 12.5px; line-height:1.2; }
+  .stop small { display:block; font-size: 10.5px; color: var(--muted); margin-top: 3px; font-family:'JetBrains Mono', monospace; line-height:1.25; }
+  .stop.testnet, .stop.planned { border-style: dashed; border-color: var(--pl); }
+  .stop.research { border-style: dotted; border-color: var(--rs); }
+  .stop[aria-current="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .stop[aria-current="true"] small { color: var(--bg); opacity: .8; }
+  .stop:focus-visible { outline: 2px solid var(--pl); outline-offset: 2px; }
+  .now { position:absolute; top:-12px; bottom:-6px; width:0; border-left: 1.5px dashed var(--ink); }
+  .now span { position:absolute; top:-6px; left:6px; font-size: 10.5px; font-weight:700; white-space:nowrap; background: var(--bg); padding: 0 4px; }
+
+  .bar { display:flex; gap:8px; align-items:center; margin: 16px 0 12px; flex-wrap: wrap; }
+  .btn { appearance:none; border:1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 7px 13px; font: 600 13px 'Space Grotesk', sans-serif; cursor:pointer; }
+  .btn:hover { border-color: var(--muted); }
+  .legend { display:flex; gap: 14px; margin-left:auto; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; }
+  .legend i { display:inline-block; width: 18px; height: 11px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; border: 1.8px solid; }
+
+  .main { display:grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; align-items:start; }
+  @media (max-width: 1100px) { .main { grid-template-columns: 1fr; } }
+  figure { margin:0; background: var(--bg); border:1px solid var(--line); border-radius: 14px; overflow:hidden; }
+  figure svg { display:block; width:100%; height:auto; }
+  figcaption { font-size: 12.5px; color: var(--muted); padding: 10px 14px; border-top: 1px solid var(--line); }
+
+  aside { background: var(--panel); border:1px solid var(--line); border-radius: 14px; padding: 18px 18px 14px; position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow:auto; }
+  aside h2 { font-size: 21px; margin: 0; line-height:1.2; }
+  aside .sub { color: var(--muted); font-size: 13px; margin: 2px 0 10px; }
+  .pill { display:inline-block; font: 700 10.5px 'JetBrains Mono', monospace; letter-spacing:.06em; padding: 3px 8px; border-radius: 99px; border:1.5px solid; margin-right: 6px; }
+  .pill.live { color: var(--nw); } .pill.testnet, .pill.planned { color: var(--pl); } .pill.research { color: var(--rs); }
+  aside h3 { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin: 16px 0 6px; text-transform: uppercase; }
+  aside ol { margin: 0; padding-left: 20px; } aside li { margin: 3px 0; font-size: 14px; }
+  .chips span { display:inline-block; font-size: 12px; border:1px solid var(--line); border-radius: 99px; padding: 1px 9px; margin: 0 5px 5px 0; background: var(--node); }
+  .note { font-size: 13.5px; background: var(--node); border-left: 3px solid var(--ch); padding: 8px 10px; border-radius: 4px; }
+  .hist { list-style:none; padding:0 !important; }
+  .hist li { display:grid; grid-template-columns: 96px 1fr; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13px; cursor:pointer; }
+  .hist li.cur { font-weight: 600; }
+  .hist li .when { font: 11px 'JetBrains Mono', monospace; color: var(--muted); padding-top: 2px; }
+  .hist li em { display:block; font-style: normal; color: var(--muted); font-weight: 400; font-size: 12.5px; }
+  .close { float:right; }
+
+  section.mx { margin-top: 34px; }
+  section.mx h2 { font-size: 20px; margin: 0 0 4px; }
+  section.mx p { color: var(--muted); margin: 0 0 12px; font-size: 14px; }
+  .scroll { overflow-x:auto; border:1px solid var(--line); border-radius: 12px; background: var(--panel); }
+  table { border-collapse: collapse; font-size: 12px; min-width: 1500px; width:100%; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 7px; vertical-align: top; text-align:left; }
+  thead th { position: sticky; top:0; background: var(--panel); cursor:pointer; font-size: 12px; line-height:1.2; }
+  thead th small { display:block; font: 10px 'JetBrains Mono', monospace; color: var(--muted); font-weight: 400; margin-top: 2px; }
+  th.rowh { width: 150px; font-weight: 600; position: sticky; left: 0; background: var(--panel); z-index: 1; }
+  tr.layer td { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; color: var(--muted); background: var(--node); text-transform: uppercase; }
+  td.c { min-width: 100px; cursor:pointer; }
+  td.c.new { box-shadow: inset 3px 0 0 var(--nw); background: color-mix(in srgb, var(--nw) 9%, transparent); }
+  td.c.changed { box-shadow: inset 3px 0 0 var(--ch); background: color-mix(in srgb, var(--ch) 9%, transparent); }
+  td.c.fut { box-shadow: inset 3px 0 0 var(--pl); background: color-mix(in srgb, var(--pl) 9%, transparent); }
+  td.c.res { box-shadow: inset 3px 0 0 var(--rs); background: color-mix(in srgb, var(--rs) 9%, transparent); }
+  td.c.same { color: var(--muted); }
+  td.c.same::before { content: ""; display:block; height: 4px; background: var(--line); border-radius: 2px; margin-top: 6px; }
+  .cur-col { outline: 2px solid var(--ink); outline-offset: -2px; }
+  .chips a { color: inherit; text-decoration: none; } .chips a:hover { text-decoration: underline; }
+  .specl { margin: 8px 0 4px; padding-left: 18px; font-size: 12.5px; } .small { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  tr.spec td { font: 11px 'JetBrains Mono', monospace; }
+  footer { margin-top: 30px; font-size: 13px; color: var(--muted); }
+  footer ol { padding-left: 20px; } footer a { color: var(--ink); }
+  .toast { margin-left: 4px; font-size: 12.5px; color: var(--nw); }
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="../index.html">Evolution of Ethereum Architecture<small>BY RWXLABS · CHECKED AGAINST THE SPECS</small></a><nav class="nav"><a href="../index.html">Architecture</a><a href="../money/index.html">ETH as an asset</a><a href="../node/index.html">Node, for engineers</a><a href="index.html" aria-current="page">All data</a></nav></header>
+<div class="wrap">
+  <h1>All data: 21 parts, 13 upgrades</h1>
+  <p class="lede">Pick an upgrade to see the protocol after it. Coloured boxes are new or changed in that upgrade. Click a box to see its full history. Model based on <a href="https://github.com/Rashmi-278/ethereumbook-animated">Mastering Ethereum, 2nd ed.</a> (snapshot June 2025), with fork scope checked against the execution-specs, consensus-specs, execution-apis and EIPs repos on 15 Nov 2026.</p>
+
+  <div class="era" id="era"></div>
+  <div class="tl" id="tl"></div>
+
+  <div class="bar">
+    <button class="btn" id="prev" aria-label="Previous upgrade">← Prev</button>
+    <button class="btn" id="play">▶ Play</button>
+    <button class="btn" id="next" aria-label="Next upgrade">Next →</button>
+    <button class="btn" id="copy">Copy SVG</button><span class="toast" id="toast" role="status"></span>
+    <div class="legend">
+      <span><i style="border-color:var(--nw);background:color-mix(in srgb,var(--nw) 12%,transparent)"></i>New</span>
+      <span><i style="border-color:var(--ch);background:color-mix(in srgb,var(--ch) 12%,transparent)"></i>Changed</span>
+      <span><i style="border-color:var(--pl);border-style:dashed"></i>Testnet / planned</span>
+      <span><i style="border-color:var(--rs);border-style:dotted"></i>Research</span>
+      <span><i style="border-color:var(--line)"></i>Unchanged</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <figure>
+      <div id="svg"></div>
+      <figcaption id="cap"></figcaption>
+    </figure>
+    <aside id="panel" aria-live="polite"></aside>
+  </div>
+
+  <section class="mx">
+    <h2>All changes at a glance</h2>
+    <p>Rows are protocol parts. Columns are upgrades. A coloured cell is the upgrade that changed that part. Click a column or cell to open it above.</p>
+    <div class="scroll"><table id="mx"></table></div>
+  </section>
+
+  <footer>
+    <h3>Sources</h3>
+    <ol id="src"></ol>
+    <p>Book chapter numbers (ch1 to ch17) refer to Mastering Ethereum, 2nd ed. Gas-limit values before 2025 are rounded.</p>
+  </footer>
+</div>
+<script>
+// Single source of data for the interactive page and the static SVG poster.
+// Book = "Mastering Ethereum, 2nd ed." (ethereumbook-animated). Book snapshot: June 2025.
+const DATA = {
+  bookUrl: "https://github.com/Rashmi-278/ethereumbook-animated",
+  stages: [
+    { id: "frontier", spec: {"el": ["frontier"], "cl": [], "meta": [], "diff": [], "cll": 0, "engine": []}, name: "Frontier", sub: "Genesis", date: "30 Jul 2015", status: "live",
+      era: "Ethereum 1.0",
+      summary: "One client does everything: P2P, PoW mining, EVM execution, state storage. Blocks start at 5,000 gas.",
+      changes: ["Ethash PoW (proof of work) with a difficulty bomb", "EVM: stack machine that runs gas-metered bytecode", "World state in a hexary Merkle-Patricia trie", "devp2p networking on TCP port 30303", "Two account types: EOA and contract"],
+      tracks: [], book: [1, 3, 14, 15],
+      bookNote: "Chapter 1 lists these components: P2P network, consensus rules, transactions, state machine, data structures, clients." },
+    { id: "homestead", spec: {"el": ["homestead", "dao_fork", "tangerine_whistle", "spurious_dragon"], "cl": [], "meta": [], "diff": [["frontier", "homestead", 12, 146, 41], ["homestead", "tangerine_whistle", 8, 125, 74], ["tangerine_whistle", "spurious_dragon", 12, 209, 55]], "cll": 0, "engine": []}, name: "Homestead → Spurious Dragon", sub: "Homestead, DAO fork, Tangerine Whistle, Spurious Dragon", date: "Mar – Nov 2016", status: "live",
+      era: "Ethereum 1.0",
+      summary: "Four 2016 forks harden the chain. Homestead stabilises it, the DAO fork reverses the DAO hack, and two forks fix DoS attacks. The architecture stays the same.",
+      changes: ["Homestead: EIP-2 safer creation, EIP-7 DELEGATECALL", "DAO fork (Jul 2016): irregular state change; Ethereum Classic splits off", "Tangerine Whistle: EIP-150 reprices IO opcodes after DoS attacks", "Spurious Dragon: EIP-155 replay protection with chain ID", "Spurious Dragon: EIP-170 24 KB contract size limit; EIP-161 state clearing"],
+      tracks: [], book: [1],
+      bookNote: "Chapter 1 names EIP-2, EIP-7 and EIP-8 as the key Homestead changes. Chapter 3 mentions the 2016 DoS attacks. The book does not name Tangerine Whistle or Spurious Dragon; EELS has a folder for each." },
+    { id: "metropolis", spec: {"el": ["byzantium", "constantinople"], "cl": [], "meta": [], "diff": [["spurious_dragon", "byzantium", 19, 756, 72], ["byzantium", "constantinople", 12, 364, 114]], "cll": 0, "engine": []}, name: "Byzantium + Constantinople", sub: "Metropolis", date: "Oct 2017 – Feb 2019", status: "live",
+      era: "Ethereum 1.0",
+      summary: "Metropolis adds new opcodes and the first zk-SNARK precompiles. Block rewards drop and the difficulty bomb moves back.",
+      changes: ["REVERT, STATICCALL, RETURNDATA opcodes", "alt_bn128 precompiles: on-chain zk-SNARK checks", "CREATE2 (EIP-1014): addresses known before deploy", "Bitwise shift opcodes SHL, SHR, SAR", "Block reward 5 → 3 → 2 ETH"],
+      tracks: [], book: [1, 14, 17],
+      bookNote: "Chapter 1 groups Byzantium, Constantinople and Istanbul under Metropolis. Chapter 14 covers CREATE vs CREATE2." },
+    { id: "istanbul", spec: {"el": ["istanbul", "muir_glacier"], "cl": [], "meta": [], "diff": [["constantinople", "istanbul", 15, 216, 75]], "cll": 0, "engine": []}, name: "Istanbul", sub: "Metropolis, part 2", date: "8 Dec 2019", status: "live",
+      era: "Ethereum 1.0",
+      summary: "Calldata gets 4x cheaper and zk precompiles get cheaper. This makes the first rollup designs viable on L1.",
+      changes: ["EIP-2028: calldata 68 → 16 gas per non-zero byte", "EIP-1108: cheaper alt_bn128 precompiles", "EIP-1344: CHAINID opcode", "EIP-1884: repricing of state-access opcodes"],
+      tracks: [], book: [1, 16],
+      bookNote: "Chapter 1 credits Istanbul with zk support for scaling and privacy." },
+    { id: "beacon-london", spec: {"el": ["berlin", "london", "arrow_glacier"], "cl": ["phase0", "altair"], "meta": [7568], "diff": [["istanbul", "berlin", 15, 495, 154], ["berlin", "london", 15, 433, 100]], "cll": 12151, "engine": []}, name: "Beacon + London", sub: "Beacon Chain, Berlin, London, Altair", date: "Dec 2020 – Oct 2021", status: "live",
+      era: "Transition",
+      summary: "A separate PoS chain (the Beacon Chain) starts beside the PoW chain. The PoW chain gets typed transactions and the EIP-1559 fee market.",
+      changes: ["Beacon Chain genesis (1 Dec 2020): validators deposit 32 ETH", "Berlin: typed tx envelope (EIP-2718) and access lists (EIP-2930)", "London: EIP-1559 base fee is burned, tip goes to producer", "Altair: sync committees for light clients", "Optimistic rollups go live on calldata"],
+      tracks: ["Merge"], book: [6, 14, 15, 16],
+      bookNote: "Chapter 6 explains type 0x01 and 0x02 transactions. Chapter 15 explains the Beacon Chain and Gasper." },
+    { id: "merge", spec: {"el": ["gray_glacier", "paris"], "cl": ["bellatrix"], "meta": [7568], "diff": [["london", "paris", 14, 152, 511]], "cll": 1828, "engine": ["newPayloadV1", "forkchoiceUpdatedV1"]}, name: "The Merge", sub: "Paris (EL) + Bellatrix (CL)", date: "15 Sep 2022", status: "live",
+      era: "Serenity",
+      summary: "PoW stops. A node is now two programs: a consensus client and an execution client, joined by the Engine API.",
+      changes: ["Ethash removed; Gasper (LMD-GHOST + Casper FFG) secures the chain", "Node = consensus client + execution client", "Engine API links the two clients", "12-second slots, 32-slot epochs, finality in ~2 epochs", "MEV-Boost relays and builders appear off-protocol"],
+      tracks: ["Merge"], book: [3, 15, 16],
+      bookNote: "Chapter 3 shows the two-client node (Figure 3-1). Chapter 15 explains slots, epochs, justification and finality." },
+    { id: "shapella", spec: {"el": ["shanghai"], "cl": ["capella"], "meta": [7568], "diff": [["paris", "shanghai", 15, 234, 81]], "cll": 1768, "engine": ["newPayloadV2", "forkchoiceUpdatedV2"]}, name: "Shapella", sub: "Shanghai (EL) + Capella (CL)", date: "12 Apr 2023", status: "live",
+      era: "Serenity",
+      summary: "Staked ETH can leave the Beacon Chain. Withdrawals finish the Merge.",
+      changes: ["EIP-4895: validator withdrawals to EL addresses", "EIP-3855: PUSH0 opcode", "EIP-3860: limit on initcode size", "ERC-4337 smart accounts launch at the app layer (Mar 2023)"],
+      tracks: ["Merge", "Splurge"], book: [5, 14, 15],
+      bookNote: "Chapter 5 covers ERC-4337 account abstraction." },
+    { id: "dencun", spec: {"el": ["cancun"], "cl": ["deneb"], "meta": [7569], "diff": [["shanghai", "cancun", 23, 881, 104]], "cll": 2580, "engine": ["newPayloadV3", "forkchoiceUpdatedV3", "getBlobsV1"]}, name: "Dencun", sub: "Cancun (EL) + Deneb (CL)", date: "13 Mar 2024", status: "live",
+      era: "Serenity",
+      summary: "Proto-danksharding adds blobs: a second data lane for rollups with its own fee market. Blobs travel on the consensus layer and expire after ~18 days.",
+      changes: ["EIP-4844: blob transactions (type 0x03), target 3 / max 6 blobs", "KZG commitments from the KZG ceremony", "EIP-1153 TSTORE/TLOAD and EIP-5656 MCOPY", "EIP-6780: SELFDESTRUCT only works in the same tx", "EIP-4788: beacon block root inside the EVM"],
+      tracks: ["Surge"], book: [4, 6, 14, 16],
+      bookNote: "Chapter 4 explains KZG commitments. Chapter 16 explains proto-danksharding and why blobs expire." },
+    { id: "pectra", spec: {"el": ["prague"], "cl": ["electra"], "meta": [7600], "diff": [["cancun", "prague", 23, 2184, 134]], "cll": 3657, "engine": ["newPayloadV4", "getPayloadV4"]}, name: "Pectra", sub: "Prague (EL) + Electra (CL)", date: "7 May 2025", status: "live",
+      era: "Serenity",
+      summary: "EOAs can run contract code. Validators can hold up to 2,048 ETH. Blob capacity doubles. This is the last fork the book covers in full.",
+      changes: ["EIP-7702: EOAs delegate to contract code (type 0x04)", "EIP-7251: max effective balance 32 → 2,048 ETH", "EIP-7002 + EIP-6110: exits and deposits triggered from the EL", "EIP-7691: blobs target 6 / max 9", "EIP-7623: higher calldata floor; EIP-2537: BLS precompile"],
+      tracks: ["Splurge", "Surge"], book: [5, 6, 14],
+      bookNote: "Chapter 14 explains the 0xef0100 delegation designator. Book snapshot ends June 2025, one month after Pectra." },
+    { id: "fusaka", spec: {"el": ["osaka", "bpo1", "bpo2"], "cl": ["fulu"], "meta": [7607, 8134, 8135], "diff": [["prague", "osaka", 18, 299, 109]], "cll": 2992, "engine": ["getPayloadV5", "getBlobsV2 / V3"]}, name: "Fusaka", sub: "Osaka (EL) + Fulu (CL)", date: "3 Dec 2025", status: "live",
+      era: "Serenity",
+      summary: "Nodes stop downloading every blob. PeerDAS lets each node keep and sample a subset of data columns. Blob limits now rise through small BPO forks.",
+      changes: ["EIP-7594 PeerDAS: data availability sampling by peers", "EIP-7892 BPO forks: BPO1 10/15 (9 Dec 2025), BPO2 14/21 (7 Jan 2026)", "EIP-7935: default gas limit 60M; EIP-7825: tx gas cap 2^24", "EIP-7951 secp256r1 precompile (passkeys); EIP-7939 CLZ opcode", "EIP-7917 proposer lookahead; EIP-7918 blob base fee floor"],
+      tracks: ["Surge"], book: [16],
+      bookNote: "After the book. Chapter 16 describes DAS as a danksharding goal; PeerDAS is the first live form of it." },
+    { id: "glamsterdam", spec: {"el": ["amsterdam"], "cl": ["gloas"], "meta": [7773], "diff": [["osaka", "amsterdam", 41, 4385, 1693]], "cll": 7176, "engine": ["newPayloadV5", "forkchoiceUpdatedV4"]}, name: "Glamsterdam", sub: "Amsterdam (EL) + Gloas (CL)", date: "Mainnet date not set", status: "testnet",
+      era: "Serenity",
+      summary: "Block building moves into the protocol (ePBS). Blocks carry an access list so clients can validate transactions in parallel. Meta EIP-7773 schedules 18 core EIPs. Sepolia forked 6 Oct 2026; the Hoodi fork is on hold over gas-repricing risks.",
+      changes: ["EIP-7732 ePBS: builders bid in-protocol; Payload Timeliness Committee", "EIP-7928 Block-Level Access Lists: parallel validation and state prefetch", "Gas model: EIP-2780, 7778, 7976, 7981, 8037, 8038 (state costs more, refunds leave block accounting)", "EVM and accounts: EIP-7843 SLOTNUM, 8024 SWAPN/DUPN, 7954 larger contracts, 7708 ETH transfers emit logs", "Validators: EIP-8045, 8061, 8282; networking: eth/70, eth/71, eth/72 sparse blobpool"],
+      tracks: ["Scourge", "Surge", "Verge"], book: [14, 15, 16],
+      bookNote: "Chapter 14 lists ePBS as a step toward statelessness. Chapter 16 explains PBS and parallel execution as open research; both now have specs." },
+    { id: "hegota", spec: {"el": ["bogota"], "cl": ["heze"], "meta": [8081], "diff": [["amsterdam", "bogota", 14, 117, 143]], "cll": 1866, "engine": ["newPayloadV6", "forkchoiceUpdatedV5", "getInclusionListV1"]}, name: "Hegotá", sub: "Bogotá (EL) + Heze (CL)", date: "Target Q2 2027, not confirmed", status: "planned",
+      era: "Serenity",
+      summary: "Censorship resistance becomes a protocol rule (FOCIL). Accounts choose their own validation logic (frame transactions). The rest of the scope is still open.",
+      changes: ["EIP-7805 FOCIL: committee inclusion lists, enforced by fork choice", "EIP-8141 frame transactions: native account abstraction", "Frame txs allow post-quantum signature schemes", "Other EIPs only under consideration (meta EIP-8081)"],
+      tracks: ["Scourge", "Splurge"], book: [5, 15],
+      bookNote: "After the book. Chapter 5 ends with 'the future of account abstraction'; frame transactions are the current answer." },
+    { id: "lean", spec: {"el": [], "cl": [], "meta": [], "diff": [], "cll": 0, "engine": ["newPayloadV6", "forkchoiceUpdatedV5"]}, name: "Lean Ethereum", sub: "Strawmap forks to ~2029", date: "Research, 2027 → 2029+", status: "research",
+      era: "Lean era",
+      summary: "A multi-fork redesign of all three layers: lean consensus, lean data, lean execution. Validators verify zk proofs instead of re-executing blocks.",
+      changes: ["Binary state tree (EIP-7864) replaces the hexary MPT", "zkEVM real-time proofs: verify, do not re-execute", "Lean consensus: faster finality, shorter slots, PQ signatures", "Full danksharding: far more blob space for L2s", "Possible VM change (RISC-V) is still contested"],
+      tracks: ["Verge", "Surge", "Purge", "Merge"], book: [14, 16, 17],
+      bookNote: "Chapter 16 describes Verkle trees for statelessness. Current plans favour a binary hash tree; the book's note on 'other hash-based binary trees' anticipated this." }
+  ],
+
+  layers: [
+    { id: "accounts", name: "Accounts & transactions" },
+    { id: "production", name: "Block production" },
+    { id: "node", name: "Ethereum node" },
+    { id: "da", name: "Data availability" },
+    { id: "l2", name: "L2 & verification" }
+  ],
+
+  // Each slot: layout box + timeline of events [stageIndex, title, detail, kind?, refs?]
+  // kind: new | changed | removed (default: changed, or new for the first event).
+  slots: [
+    { id: "acct_eoa", layer: "accounts", label: "EOA", x: 40, y: 64, w: 380, h: 74,
+      ev: [
+        [0, "EOA: one key, no code", "Holds ETH. Signs txs with one secp256k1 key. Cannot hold code.", "new", "ch5, ch6"],
+        [8, "EOA + code delegation", "EIP-7702: EOA sets 0xef0100 + address and runs that contract's code. Type 0x04 tx.", "changed", "ch14"],
+        [11, "Frame transactions", "EIP-8141: account runs its own validation. Any signature scheme, incl. post-quantum.", "changed", ""]
+      ] },
+    { id: "acct_contract", layer: "accounts", label: "Contract account", x: 450, y: 64, w: 380, h: 74,
+      ev: [
+        [0, "Contract account", "Code + storage. Runs only when a tx or call reaches it.", "new", "ch7, ch14"],
+        [2, "CREATE2 + new opcodes", "Counterfactual addresses (EIP-1014). REVERT, STATICCALL.", "changed", "ch14"],
+        [7, "SELFDESTRUCT restricted", "EIP-6780: code deletion only in the creating tx.", "changed", ""],
+        [10, "Bigger code, transfer logs", "EIP-7954 raises max contract size. EIP-7708: ETH transfers emit a log.", "changed", ""]
+      ] },
+    { id: "acct_aa", layer: "accounts", label: "Smart accounts", x: 860, y: 64, w: 380, h: 74,
+      ev: [
+        [6, "ERC-4337 (app layer)", "UserOps, bundlers, EntryPoint contract. No fork needed.", "new", "ch5"],
+        [8, "4337 + 7702 together", "An EOA keeps its address and delegates to smart-account code.", "changed", "ch5"],
+        [11, "Native AA in protocol", "Frame txs move validation into the account. Gas sponsors are native.", "changed", ""]
+      ] },
+
+    { id: "bp_producer", layer: "production", label: "Block producer", x: 40, y: 190, w: 380, h: 74,
+      ev: [
+        [0, "Miner", "Picks and orders txs, then mines the block with Ethash.", "new", "ch15"],
+        [5, "Proposer (1 per slot)", "A random validator proposes each 12 s slot. Miners removed.", "changed", "ch15"],
+        [10, "Proposer commits to a bid", "ePBS: beacon block commits to a builder's payload header.", "changed", ""]
+      ] },
+    { id: "bp_builders", layer: "production", label: "Builder market", x: 450, y: 190, w: 380, h: 74,
+      ev: [
+        [5, "MEV-Boost (off-protocol)", "Builders bid through trusted relays. Most blocks come from a few builders.", "new", "ch14, ch16"],
+        [10, "ePBS builders (EIP-7732)", "Builders are in-protocol. A Payload Timeliness Committee checks the reveal.", "changed", "ch16"]
+      ] },
+    { id: "bp_inclusion", layer: "production", label: "Inclusion guarantee", x: 860, y: 190, w: 380, h: 74,
+      ev: [
+        [11, "FOCIL (EIP-7805)", "A validator committee lists txs that must go in. Fork choice enforces it.", "new", "ch15"]
+      ] },
+
+    { id: "cl_consensus", layer: "node", label: "Consensus", x: 56, y: 360, w: 476, h: 62,
+      ev: [
+        [0, "Ethash PoW (inside the one client)", "Heaviest chain wins. Difficulty bomb pushes toward PoS.", "new", "ch15"],
+        [2, "PoW, lower reward", "Block reward 5 → 3 → 2 ETH. Bomb delayed.", "changed", "ch1"],
+        [4, "Gasper on a parallel chain", "Beacon Chain runs PoS beside PoW. Not linked to execution yet.", "changed", "ch15"],
+        [5, "Gasper: LMD-GHOST + Casper FFG", "Fork choice + finality gadget. Finality after ~2 epochs (~12.8 min).", "changed", "ch15"],
+        [9, "Gasper + proposer lookahead", "EIP-7917: proposer schedule fixed one epoch ahead.", "changed", ""],
+        [12, "Lean consensus", "Fast finality (seconds), shorter slots, post-quantum signatures.", "changed", ""]
+      ] },
+    { id: "cl_validators", layer: "node", label: "Validators & stake", x: 56, y: 432, w: 476, h: 62,
+      ev: [
+        [4, "Validators: 32 ETH deposits", "Deposit contract on the PoW chain. No withdrawals yet.", "new", "ch15"],
+        [6, "Withdrawals live", "EIP-4895: partial and full withdrawals to EL addresses.", "changed", "ch15"],
+        [8, "MaxEB 2,048 ETH", "EIP-7251 consolidation. EIP-7002 exits and EIP-6110 deposits from the EL.", "changed", ""],
+        [10, "Faster churn, builder requests", "EIP-8061 churn up. EIP-8282 builder requests. EIP-8045 slashed cannot propose.", "changed", ""],
+        [12, "Fewer signatures per slot", "Lean design: hash-based PQ signatures, aggregated with SNARKs.", "changed", ""]
+      ] },
+    { id: "cl_light", layer: "node", label: "Light clients", x: 56, y: 504, w: 476, h: 62,
+      ev: [
+        [4, "Sync committees (Altair)", "512 validators sign headers. Light clients follow the chain cheaply.", "new", "ch16"],
+        [12, "Phone-class full verifiers", "zk proofs + binary tree: verify the chain on a phone.", "changed", "ch14, ch16"]
+      ] },
+    { id: "cl_net", layer: "node", label: "CL networking", x: 56, y: 576, w: 476, h: 62,
+      ev: [
+        [4, "libp2p gossip (beacon)", "Blocks and attestations on a separate P2P stack.", "new", "ch3"],
+        [7, "+ blob sidecars", "Full blobs travel next to beacon blocks.", "changed", "ch16"],
+        [9, "+ data column subnets", "PeerDAS: each node custodies some columns and samples others.", "changed", ""],
+        [10, "+ payload attestations", "PTC votes on timely payload reveal (ePBS).", "changed", ""],
+        [11, "+ inclusion list gossip", "Heze spec: InclusionList messages from the IL committee.", "changed", ""]
+      ] },
+
+    { id: "el_evm", layer: "node", label: "EVM", x: 748, y: 360, w: 236, h: 62,
+      ev: [
+        [0, "EVM stack machine", "256-bit words. Bytecode. Gas per opcode.", "new", "ch14"],
+        [1, "+ DELEGATECALL", "EIP-7: run callee code in caller context.", "changed", "ch14"],
+        [2, "+ REVERT, STATICCALL, zk precompiles", "alt_bn128 add, mul, pairing.", "changed", "ch14, ch17"],
+        [6, "+ PUSH0", "EIP-3855.", "changed", "ch14"],
+        [7, "+ TSTORE, MCOPY, BLOBHASH", "Transient storage. EVM sees blob hashes, not blobs.", "changed", "ch14"],
+        [8, "+ BLS12-381 precompile", "EIP-2537. EOF postponed indefinitely.", "changed", "ch14"],
+        [9, "+ CLZ, secp256r1", "EIP-7939, EIP-7951 (passkey signatures).", "changed", ""],
+        [10, "+ SLOTNUM, SWAPN, DUPN", "EIP-7843, EIP-8024 (deeper stack access).", "changed", "ch14"],
+        [12, "zkEVM-proven EVM", "Blocks carry proofs. A RISC-V VM is a contested option.", "changed", "ch14, ch17"]
+      ] },
+    { id: "el_state", layer: "node", label: "State tree", x: 996, y: 360, w: 236, h: 62,
+      ev: [
+        [0, "Merkle-Patricia trie", "Hexary, Keccak. World state in LevelDB.", "new", "ch1, ch14"],
+        [8, "MPT + history in state", "EIP-2935: last 8,191 block hashes in a system contract.", "changed", "ch14"],
+        [12, "Binary tree (EIP-7864)", "Replaces MPT. Shorter proofs. Verkle plan dropped.", "changed", "ch16"]
+      ] },
+    { id: "el_exec", layer: "node", label: "Block validation", x: 748, y: 432, w: 236, h: 62,
+      ev: [
+        [0, "Sequential re-execution", "Every node re-runs every tx in order.", "new", "ch14"],
+        [10, "Parallel via BALs", "EIP-7928: block lists every slot it touches.", "changed", "ch16"],
+        [12, "Verify a zk proof", "No re-execution. Stateless validators.", "changed", "ch14, ch17"]
+      ] },
+    { id: "el_gas", layer: "node", label: "Block gas limit", x: 996, y: 432, w: 236, h: 62,
+      ev: [
+        [0, "5,000 → millions", "Lifted Sep 2015. Miners vote it up.", "new", "ch1, ch14"],
+        [2, "~8M", "Miner vote.", "changed", "ch16"],
+        [3, "~10M → 12.5M", "Miner vote.", "changed", "ch16"],
+        [4, "15M target / 30M max", "EIP-1559 elastic blocks.", "changed", "ch14"],
+        [8, "36M → 45M", "Validator signalling in 2025.", "changed", "ch16"],
+        [9, "60M default", "EIP-7935.", "changed", ""],
+        [10, "200M target", "Enabled by BALs + repricing.", "changed", ""],
+        [12, "Gigagas goal", "~10,000 TPS on L1.", "changed", ""]
+      ] },
+    { id: "el_fees", layer: "node", label: "Fee market", x: 748, y: 504, w: 236, h: 62,
+      ev: [
+        [0, "First-price gas auction", "Legacy tx. Fee goes to miner.", "new", "ch6"],
+        [4, "EIP-1559 base fee burn", "Typed txs 0x01, 0x02. Tip to producer.", "changed", "ch6"],
+        [7, "Gas + blob gas", "Two base fees. Type 0x03.", "changed", "ch6"],
+        [8, "Calldata floor (EIP-7623)", "Data-heavy txs pay more.", "changed", "ch14"],
+        [9, "Tx cap 2^24, blob fee floor", "EIP-7825, EIP-7918.", "changed", ""],
+        [10, "State gas repriced", "EIP-2780, 7778, 7976, 8037, 8038. Contract risk holds Hoodi.", "changed", ""],
+        [12, "Multidimensional gas", "Price each resource apart.", "changed", "ch16"]
+      ] },
+    { id: "el_net", layer: "node", label: "EL networking", x: 996, y: 504, w: 236, h: 62,
+      ev: [
+        [0, "devp2p, port 30303", "Blocks + txs + state sync.", "new", "ch1, ch3"],
+        [5, "devp2p: txs + state only", "Blocks now arrive from the CL.", "changed", "ch3"],
+        [9, "Pre-Merge history pruned", "eth/69. History expiry (EIP-4444 path).", "changed", "ch16"],
+        [10, "eth/70, eth/71, snap/2", "Partial receipts. BAL exchange. BAL-based state healing.", "changed", ""]
+      ] },
+    { id: "el_txpool", layer: "node", label: "Mempool", x: 748, y: 576, w: 484, h: 62,
+      ev: [
+        [0, "Public mempool", "Any node gossips pending txs. Producer orders them.", "new", "ch6"],
+        [5, "Public + private order flow", "Builders buy private flow. MEV extraction.", "changed", "ch15, ch16"],
+        [9, "+ blobpool (cell proofs)", "Blob txs carry cell proofs for PeerDAS.", "changed", ""],
+        [10, "+ sparse blobpool (eth/72)", "EIP-8070: nodes keep part of each blob tx.", "changed", ""],
+        [11, "Mempool feeds inclusion lists", "FOCIL committee picks txs from its local view.", "changed", ""]
+      ] },
+
+    { id: "da_data", layer: "da", label: "Data lane", x: 40, y: 730, w: 760, h: 74,
+      ev: [
+        [0, "Calldata only", "All data sits in execution blocks forever.", "new", "ch16"],
+        [3, "Cheaper calldata", "EIP-2028: 16 gas per byte. Rollups become viable.", "changed", "ch16"],
+        [7, "Blobs: target 3 / max 6", "EIP-4844. ~128 KB each, KZG commitment, pruned after ~18 days.", "changed", "ch4, ch16"],
+        [8, "Blobs: target 6 / max 9", "EIP-7691.", "changed", ""],
+        [9, "Blobs: 14 / 21 via BPO forks", "PeerDAS + EIP-7892. BPO1 10/15, BPO2 14/21.", "changed", ""],
+        [12, "Full danksharding", "2D sampling. Many more blobs per slot.", "changed", "ch16"]
+      ] },
+    { id: "da_check", layer: "da", label: "How nodes check data", x: 830, y: 730, w: 410, h: 74,
+      ev: [
+        [0, "Download everything", "Every node gets every byte.", "new", "ch16"],
+        [7, "Download every blob", "No sampling yet (proto-danksharding).", "changed", "ch16"],
+        [9, "Sample columns (PeerDAS)", "Custody a subset. Erasure code fills gaps.", "changed", "ch16"]
+      ] },
+
+    { id: "l2", layer: "l2", label: "Layer 2", x: 40, y: 856, w: 600, h: 74,
+      ev: [
+        [2, "Channels and Plasma", "Early L2 designs. Data stays off-chain.", "new", "ch16"],
+        [4, "Rollups post calldata", "Optimistic and zk rollups launch.", "changed", "ch16"],
+        [7, "Rollups post blobs", "L2 fees drop. Blob market separate from gas.", "changed", "ch16"],
+        [9, "More blob space", "BPO forks scale capacity between named forks.", "changed", ""],
+        [12, "Native + based rollups", "EXECUTE precompile. L1 sequencing.", "changed", "ch16"]
+      ] },
+    { id: "verify", layer: "l2", label: "Who verifies what", x: 660, y: 856, w: 580, h: 74,
+      ev: [
+        [0, "Full nodes re-execute all", "Full state on disk (~1.2 TB by 2025).", "new", "ch3, ch16"],
+        [4, "+ light clients", "Sync committees. Helios-style clients.", "changed", "ch16"],
+        [10, "Builders hold state; parallel checks", "Weak statelessness path: ePBS + BALs.", "changed", "ch14, ch16"],
+        [12, "Stateless + zk-verified", "Validators keep only the state root.", "changed", "ch14, ch17"]
+      ] }
+  ],
+
+  // Gutter flows. Each: [fromStage, toStage, label]
+  flows: {
+    a2b: [[0, 12, "signed txs → mempool → producer"]],
+    b2n: [[0, 4, "miner seals block (PoW) in the same client"], [5, 9, "proposer gets block from a builder via relay"], [10, 10, "builder bid committed in the beacon block (ePBS)"], [11, 12, "ePBS + inclusion lists enforced by fork choice"]],
+    engine: [[4, 4, "not linked yet"], [5, 12, "Engine API"]],
+    n2d: [[0, 6, "data in block body (calldata)"], [7, 8, "blob sidecars via CL p2p"], [9, 12, "columns custodied and sampled by peers"]],
+    l2d: [[2, 3, "proofs and exits on L1"], [4, 6, "rollups post batches as calldata"], [7, 12, "rollups post batches as blobs"]]
+  },
+
+  sources: [
+    ["ethereum/execution-specs (EELS fork folders)", "https://github.com/ethereum/execution-specs/tree/HEAD/src/ethereum/forks"],
+    ["ethereum/consensus-specs (CL fork folders)", "https://github.com/ethereum/consensus-specs/tree/HEAD/specs"],
+    ["ethereum/execution-apis (Engine API per fork)", "https://github.com/ethereum/execution-apis/tree/HEAD/src/engine"],
+    ["EIP-7607 Fusaka meta", "https://eips.ethereum.org/EIPS/eip-7607"],
+    ["EIP-7773 Glamsterdam meta", "https://eips.ethereum.org/EIPS/eip-7773"],
+    ["EIP-8081 Hegotá meta", "https://eips.ethereum.org/EIPS/eip-8081"],
+    ["Forkcast upgrade tracker", "https://forkcast.org/"],
+    ["Mastering Ethereum 2nd ed. (book source)", "https://github.com/Rashmi-278/ethereumbook-animated"],
+    ["EF: Fusaka mainnet announcement", "https://blog.ethereum.org/2025/11/06/fusaka-mainnet-announcement"],
+    ["growthepie: Fusaka", "https://www.growthepie.com/quick-bites/fusaka"],
+    ["ethereum.org: Glamsterdam", "https://ethereum.org/roadmap/glamsterdam/"],
+    ["Figment: Glamsterdam EIP list", "https://www.figment.io/insights/glamsterdam-what-ethereums-next-upgrade-means-for-institutional-stakers/"],
+    ["Crowdfund Insider: Hoodi fork delayed (Nov 2026)", "https://www.crowdfundinsider.com/2026/11/322016-ethereum-eth-core-devs-delay-glamsterdam-hoodi-fork-until-smart-contract-gas-risks-are-resolved/"],
+    ["ethereum.org: Hegotá", "https://ethereum.org/roadmap/hegota/"],
+    ["The Block: binary tree EIP-7864 + VM plan", "https://theblock.co/post/391681/vitalik-buterin-lays-out-a-two-part-plan-to-overhaul-ethereums-execution-layer-from-the-ground-up"],
+    ["ForkLog: Lean Ethereum strawmap", "https://forklog.com/en/news/lean-ethereum-what-buterins-strawmap-promises"]
+  ]
+};
+
+// Pure string renderers. Work in the browser and in Node.
+const PALETTES = {
+  light: { bg: "#fbfaf7", ink: "#1d1c1a", muted: "#6e6a63", faint: "#b9b4aa", line: "#dcd7cd", panel: "#ffffff",
+    node: "#f2efe8", nw: "#0e8565", ch: "#b86f00", pl: "#6a4bd1", rs: "#7d7871" },
+  dark: { bg: "#0B0A1F", ink: "#EDEBFF", muted: "#9B97C9", faint: "#5E5A8C", line: "#2E2A5E", panel: "#16123A",
+    node: "#1E1950", nw: "#38E1D6", ch: "#FFC861", pl: "#A891FF", rs: "#9B97C9" }
+};
+const FONT = "'Space Grotesk', 'Segoe UI', system-ui, sans-serif";
+const MONO = "'JetBrains Mono', ui-monospace, monospace";
+
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+function slotState(slot, i) {
+  let cur = null;
+  for (const e of slot.ev) if (e[0] <= i) cur = e;
+  if (!cur) return { kind: "absent" };
+  const kind = cur[0] === i ? (cur[3] || "changed") : "same";
+  return { kind, title: cur[1], detail: cur[2], refs: cur[4] || "", since: cur[0] };
+}
+
+function wrap(text, maxChars, maxLines) {
+  const words = String(text).split(" "); const lines = []; let line = "";
+  for (const w of words) {
+    const t = line ? line + " " + w : w;
+    if (t.length > maxChars && line) { lines.push(line); line = w; } else line = t;
+  }
+  if (line) lines.push(line);
+  if (lines.length > maxLines) {
+    const keep = lines.slice(0, maxLines);
+    keep[maxLines - 1] = keep[maxLines - 1].replace(/\s*\S*$/, "") + " …";
+    return keep;
+  }
+  return lines;
+}
+
+function flowLabel(list, i) { for (const f of list) if (i >= f[0] && i <= f[1]) return f[2]; return null; }
+
+function statusColor(P, stageStatus) {
+  return stageStatus === "testnet" ? P.pl : stageStatus === "planned" ? P.pl : stageStatus === "research" ? P.rs : null;
+}
+
+function renderStage(D, i, P, opts) {
+  opts = opts || {};
+  const st = D.stages[i];
+  const W = 1280, H = 950;
+  const sel = opts.selected || null;
+  const fut = st.status !== "live";
+  const futC = statusColor(P, st.status);
+  const o = [];
+  o.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Ethereum architecture at ${esc(st.name)} (${esc(st.date)}): components that are new or changed in this upgrade are highlighted." font-family="${FONT}">`);
+  o.push(`<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${P.muted}"/></marker></defs>`);
+  o.push(`<rect width="${W}" height="${H}" fill="${P.bg}"/>`);
+
+  const layerY = { accounts: 52, production: 178, node: 292, da: 718, l2: 844 };
+  for (const L of D.layers) o.push(`<text x="40" y="${layerY[L.id]}" font-size="11" font-weight="600" letter-spacing="1.4" fill="${P.muted}">${esc(L.name.toUpperCase())}</text>`);
+
+  // Stage stamp (top right)
+  o.push(`<text x="1240" y="30" text-anchor="end" font-size="15" font-weight="700" fill="${P.ink}">${esc(st.name)}</text>`);
+  o.push(`<text x="1240" y="48" text-anchor="end" font-size="11" fill="${futC || P.muted}" font-family="${MONO}">${esc(st.date)}${fut ? " · " + st.status.toUpperCase() : ""}</text>`);
+
+  // Node frame
+  const merged = i >= 5, beacon = i === 4;
+  o.push(`<rect x="30" y="300" width="1220" height="364" rx="14" fill="${P.node}" stroke="${P.line}"/>`);
+  const clTitle = merged ? "Consensus client  (Prysm, Lighthouse, Teku, Nimbus, Lodestar, Grandine)" : beacon ? "Beacon node  (separate PoS chain, runs beside PoW)" : "Consensus logic  (built into the one client)";
+  const elTitle = merged ? "Execution client  (Geth, Nethermind, Besu, Erigon, Reth)" : "Execution  (Geth, Parity/OpenEthereum, …: one program)";
+  o.push(`<rect x="40" y="312" width="508" height="340" rx="10" fill="${P.panel}" stroke="${P.line}" ${merged ? "" : 'stroke-dasharray="5 4"'}/>`);
+  o.push(`<rect x="732" y="312" width="516" height="340" rx="10" fill="${P.panel}" stroke="${P.line}"/>`);
+  o.push(`<text x="56" y="338" font-size="12" font-weight="600" fill="${P.ink}">${esc(clTitle)}</text>`);
+  o.push(`<text x="748" y="338" font-size="12" font-weight="600" fill="${P.ink}">${esc(elTitle)}</text>`);
+
+  // Engine API bridge
+  const eng = flowLabel(D.flows.engine, i);
+  if (eng) {
+    const dash = i === 4 ? ' stroke-dasharray="4 4"' : "";
+    o.push(`<line x1="552" y1="472" x2="728" y2="472" stroke="${P.muted}" stroke-width="1.6"${dash} marker-start="url(#ah)" marker-end="url(#ah)"/>`);
+    o.push(`<text x="640" y="462" text-anchor="middle" font-size="12" font-weight="600" fill="${P.ink}">${esc(eng)}</text>`);
+    (st.spec && st.spec.engine || []).forEach((m, k) => o.push(`<text x="640" y="${492 + k * 14}" text-anchor="middle" font-size="10" fill="${P.muted}" font-family="${MONO}">${esc(m)}</text>`));
+  } else {
+    o.push(`<text x="640" y="468" text-anchor="middle" font-size="11" fill="${P.muted}">same process</text><text x="640" y="483" text-anchor="middle" font-size="11" fill="${P.muted}">(one client)</text>`);
+  }
+
+  // Gutter flows
+  function vflow(x, y1, y2, label, lx, ly) {
+    if (!label) return;
+    o.push(`<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="${P.muted}" stroke-width="1.6" marker-end="url(#ah)"/>`);
+    o.push(`<text x="${lx}" y="${ly}" font-size="11" fill="${P.ink}">${esc(label)}</text>`);
+  }
+  vflow(640, 140, 188, flowLabel(D.flows.a2b, i), 652, 168);
+  vflow(640, 266, 298, flowLabel(D.flows.b2n, i), 652, 287);
+  vflow(640, 666, 728, flowLabel(D.flows.n2d, i), 652, 702);
+  const l2l = flowLabel(D.flows.l2d, i);
+  if (l2l) { o.push(`<line x1="340" y1="854" x2="340" y2="808" stroke="${P.muted}" stroke-width="1.6" marker-end="url(#ah)"/>`); o.push(`<text x="352" y="836" font-size="11" fill="${P.ink}">${esc(l2l)}</text>`); }
+
+  // Slots
+  for (const s of D.slots) {
+    const ss = slotState(s, i);
+    const isSel = sel === s.id;
+    const tall = s.h >= 70;
+    const g = [];
+    g.push(`<g data-slot="${s.id}" style="cursor:pointer">`);
+    if (ss.kind === "absent") {
+      g.push(`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="8" fill="none" stroke="${isSel ? P.ink : P.line}" stroke-dasharray="3 5"/>`);
+      g.push(`<text x="${s.x + 12}" y="${s.y + 18}" font-size="10" font-weight="600" letter-spacing="0.8" fill="${P.faint}">${esc(s.label.toUpperCase())}</text>`);
+      g.push(`<text x="${s.x + 12}" y="${s.y + 38}" font-size="12" fill="${P.faint}">not yet</text>`);
+      g.push(`</g>`); o.push(g.join("")); continue;
+    }
+    const hot = ss.kind === "new" || ss.kind === "changed";
+    const col = !hot ? P.faint : (fut ? futC : (ss.kind === "new" ? P.nw : P.ch));
+    const dash = hot && fut ? (st.status === "research" ? ' stroke-dasharray="2 4"' : ' stroke-dasharray="7 4"') : "";
+    g.push(`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="8" fill="${P.panel}" stroke="${isSel ? P.ink : col}" stroke-width="${isSel ? 2.4 : hot ? 2 : 1}"${dash}/>`);
+    if (hot) g.push(`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="8" fill="${col}" fill-opacity="0.09" pointer-events="none"/>`);
+    g.push(`<text x="${s.x + 12}" y="${s.y + (tall ? 18 : 16)}" font-size="10" font-weight="600" letter-spacing="0.8" fill="${P.muted}">${esc(s.label.toUpperCase())}</text>`);
+    if (hot) {
+      const badge = s.w < 300 ? (fut ? st.status.toUpperCase() : (ss.kind === "new" ? "NEW" : "CHANGED")) : (ss.kind === "new" ? "NEW" : "CHANGED") + (fut ? " · " + st.status.toUpperCase() : "");
+      const bw = badge.length * 6.1 + 12;
+      g.push(`<rect x="${s.x + s.w - bw - 8}" y="${s.y + 7}" width="${bw}" height="15" rx="7.5" fill="${col}"/>`);
+      g.push(`<text x="${s.x + s.w - bw / 2 - 8}" y="${s.y + 18}" text-anchor="middle" font-size="9" font-weight="700" letter-spacing="0.6" fill="${P.bg}">${badge}</text>`);
+    }
+    const tfs = Math.max(10.5, Math.min(13.5, (s.w - 24) / (ss.title.length * 0.58)));
+    g.push(`<text x="${s.x + 12}" y="${s.y + (tall ? 38 : 35)}" font-size="${tfs.toFixed(1)}" font-weight="600" fill="${hot ? P.ink : P.muted}">${esc(ss.title)}</text>`);
+    const lines = wrap(ss.detail, Math.floor((s.w - 24) / 5.7), tall ? 2 : 1);
+    lines.forEach((ln, k) => g.push(`<text x="${s.x + 12}" y="${s.y + (tall ? 55 : 52) + k * 14}" font-size="11" fill="${P.muted}">${esc(ln)}</text>`));
+    g.push(`</g>`);
+    o.push(g.join(""));
+  }
+  o.push(`</svg>`);
+  return o.join("\n");
+}
+
+function renderMatrix(D, P) {
+  const colW = 164, labW = 200, top = 176, rowH = 54, layerH = 30, padX = 36;
+  const N = D.stages.length;
+  const W = padX * 2 + labW + N * colW;
+  let rows = 0; const layout = [];
+  for (const L of D.layers) {
+    layout.push({ type: "layer", L, y: top + rows }); rows += layerH;
+    for (const s of D.slots.filter(s => s.layer === L.id)) { layout.push({ type: "slot", s, y: top + rows }); rows += rowH; }
+  }
+  const specTop = top + rows; rows += layerH + 2 * rowH;
+  const H = top + rows + 150;
+  const o = [];
+  const cx = j => padX + labW + j * colW;
+  o.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Matrix of Ethereum architecture components across 13 upgrades, from Frontier 2015 to the Lean Ethereum research era." font-family="${FONT}">`);
+  o.push(`<rect width="${W}" height="${H}" fill="${P.bg}"/>`);
+  o.push(`<text x="${padX}" y="54" font-size="30" font-weight="700" fill="${P.ink}">Ethereum architecture evolution, 2015 → 2029+</text>`);
+  o.push(`<text x="${padX}" y="82" font-size="14" fill="${P.muted}">Each row is one part of the protocol. A coloured cell marks the upgrade that adds or changes it; a grey bar means it carries forward unchanged.</text>`);
+  o.push(`<text x="${padX}" y="102" font-size="12" fill="${P.muted}" font-family="${MONO}">Source of truth: Mastering Ethereum 2nd ed. (book snapshot June 2025) · fork status per EF and ethereum.org as of 15 Nov 2026</text>`);
+  // legend
+  const leg = [["New", P.nw, ""], ["Changed", P.ch, ""], ["Testnet / planned", P.pl, "7 4"], ["Research", P.rs, "2 4"]];
+  let lx = W - padX - 560;
+  for (const [t, c, d] of leg) {
+    o.push(`<rect x="${lx}" y="40" width="22" height="14" rx="4" fill="${c}" fill-opacity="0.12" stroke="${c}" stroke-width="1.6" ${d ? `stroke-dasharray="${d}"` : ""}/>`);
+    o.push(`<text x="${lx + 30}" y="52" font-size="12" fill="${P.ink}">${t}</text>`); lx += 30 + t.length * 7 + 26;
+  }
+  // era bands + headers
+  let j0 = 0;
+  for (let j = 1; j <= N; j++) {
+    if (j === N || D.stages[j].era !== D.stages[j0].era) {
+      o.push(`<rect x="${cx(j0) + 3}" y="104" width="${(j - j0) * colW - 6}" height="18" rx="4" fill="${P.line}"/>`);
+      o.push(`<text x="${cx(j0) + 10}" y="117" font-size="10.5" font-weight="700" letter-spacing="1" fill="${P.muted}">${esc(D.stages[j0].era.toUpperCase())}</text>`);
+      j0 = j;
+    }
+  }
+  D.stages.forEach((st, j) => {
+    const c = statusColor(P, st.status) || P.ink;
+    const nm = st.name.length > 22 ? wrap(st.name, 20, 2) : [st.name];
+    nm.forEach((ln, k) => o.push(`<text x="${cx(j) + 8}" y="${150 + k * 13 - (nm.length - 1) * 13}" font-size="12.5" font-weight="700" fill="${c}">${esc(ln)}</text>`));
+    o.push(`<text x="${cx(j) + 8}" y="166" font-size="10" fill="${P.muted}" font-family="${MONO}">${esc(st.date.length > 24 ? st.date.slice(0, 23) + "…" : st.date)}</text>`);
+  });
+  // "now" marker between Fusaka (9) and Glamsterdam (10)
+  const nowX = cx(10) - 1;
+  o.push(`<line x1="${nowX}" y1="100" x2="${nowX}" y2="${top + rows}" stroke="${P.ink}" stroke-width="1.4" stroke-dasharray="3 3"/>`);
+  o.push(`<text x="${nowX - 6}" y="${top + rows + 16}" text-anchor="end" font-size="11" font-weight="600" fill="${P.ink}">mainnet today (Nov 2026) ◀</text>`);
+
+  for (const it of layout) {
+    if (it.type === "layer") {
+      o.push(`<text x="${padX}" y="${it.y + 20}" font-size="11" font-weight="700" letter-spacing="1.3" fill="${P.muted}">${esc(it.L.name.toUpperCase())}</text>`);
+      o.push(`<line x1="${padX}" y1="${it.y + 26}" x2="${W - padX}" y2="${it.y + 26}" stroke="${P.line}"/>`);
+      continue;
+    }
+    const s = it.s, y = it.y;
+    o.push(`<text x="${padX}" y="${y + 31}" font-size="13" font-weight="600" fill="${P.ink}">${esc(s.label)}</text>`);
+    for (let j = 0; j < N; j++) {
+      const ss = slotState(s, j); if (ss.kind === "absent") continue;
+      const x = cx(j) + 3, w = colW - 6;
+      if (ss.kind === "same") { o.push(`<rect x="${x - 3}" y="${y + 24}" width="${colW}" height="6" fill="${P.line}"/>`); continue; }
+      const st = D.stages[j], fut = st.status !== "live";
+      const c = fut ? statusColor(P, st.status) : (ss.kind === "new" ? P.nw : P.ch);
+      const d = fut ? (st.status === "research" ? ' stroke-dasharray="2 4"' : ' stroke-dasharray="7 4"') : "";
+      o.push(`<rect x="${x}" y="${y + 5}" width="${w}" height="${rowH - 10}" rx="6" fill="${P.panel}" stroke="${c}" stroke-width="1.6"${d}/>`);
+      o.push(`<rect x="${x}" y="${y + 5}" width="${w}" height="${rowH - 10}" rx="6" fill="${c}" fill-opacity="0.1"/>`);
+      wrap(ss.title, 21, 2).forEach((ln, k) => o.push(`<text x="${x + 7}" y="${y + 23 + k * 14}" font-size="11" font-weight="${k === 0 ? 600 : 500}" fill="${P.ink}">${esc(ln)}</text>`));
+    }
+  }
+  // spec rows
+  o.push(`<text x="${padX}" y="${specTop + 20}" font-size="11" font-weight="700" letter-spacing="1.3" fill="${P.muted}">SPEC CHANGE SIZE (MEASURED FROM THE SPEC REPOS)</text>`);
+  o.push(`<line x1="${padX}" y1="${specTop + 26}" x2="${W - padX}" y2="${specTop + 26}" stroke="${P.line}"/>`);
+  const r1 = specTop + layerH, r2 = r1 + rowH;
+  o.push(`<text x="${padX}" y="${r1 + 25}" font-size="13" font-weight="600" fill="${P.ink}">EL code diff (EELS)</text><text x="${padX}" y="${r1 + 41}" font-size="10.5" fill="${P.muted}">lines added / removed</text>`);
+  o.push(`<text x="${padX}" y="${r2 + 25}" font-size="13" font-weight="600" fill="${P.ink}">CL spec size</text><text x="${padX}" y="${r2 + 41}" font-size="10.5" fill="${P.muted}">lines in the fork's spec docs</text>`);
+  const maxD = Math.max(...D.stages.map(s => s.spec.diff.reduce((a, d) => a + d[3] + d[4], 0)));
+  const maxC = Math.max(...D.stages.map(s => s.spec.cll));
+  D.stages.forEach((s, j) => {
+    const ins = s.spec.diff.reduce((a, d) => a + d[3], 0), del = s.spec.diff.reduce((a, d) => a + d[4], 0);
+    const x = cx(j) + 6, bw = colW - 18;
+    if (ins + del) {
+      const wi = bw * ins / maxD, wd = bw * del / maxD;
+      o.push(`<rect x="${x}" y="${r1 + 8}" width="${Math.max(1, wi)}" height="12" fill="${P.nw}"/><rect x="${x + wi}" y="${r1 + 8}" width="${Math.max(1, wd)}" height="12" fill="${P.ch}"/>`);
+      o.push(`<text x="${x}" y="${r1 + 36}" font-size="10.5" fill="${P.ink}" font-family="${MONO}">+${ins.toLocaleString("en-US")} / −${del.toLocaleString("en-US")}</text>`);
+    }
+    if (s.spec.cll) {
+      o.push(`<rect x="${x}" y="${r2 + 8}" width="${Math.max(1, bw * s.spec.cll / maxC)}" height="12" fill="${P.pl}" fill-opacity="0.7"/>`);
+      o.push(`<text x="${x}" y="${r2 + 36}" font-size="10.5" fill="${P.ink}" font-family="${MONO}">${s.spec.cll.toLocaleString("en-US")} (${esc(s.spec.cl.join(" + "))})</text>`);
+    }
+  });
+  const fy = top + rows + 50;
+  o.push(`<text x="${padX}" y="${fy}" font-size="12" font-weight="700" fill="${P.ink}">Notes</text>`);
+  const notes = [
+    "Fusaka blob numbers are target / max per block after the BPO forks (BPO1 10/15 on 9 Dec 2025, BPO2 14/21 on 7 Jan 2026).",
+    "Glamsterdam forked Sepolia on 6 Oct 2026. The Hoodi fork is on hold over gas-repricing risks (EIP-8037/8038). No mainnet date is set.",
+    "Hegotá scope so far: FOCIL (EIP-7805) and frame transactions (EIP-8141). ethereum.org lists Q2 2027, not confirmed.",
+    "The book describes Verkle trees and EOF. Current plans favour a binary state tree (EIP-7864); EOF is postponed indefinitely.",
+    "Diffs: git diff --shortstat between consecutive EELS fork folders (ethereum/execution-specs, src/ethereum/forks). CL: line count of specs/<fork>/ in ethereum/consensus-specs. Repos read 15 Nov 2026."
+  ];
+  notes.forEach((n, k) => o.push(`<text x="${padX}" y="${fy + 20 + k * 17}" font-size="12" fill="${P.muted}">${k + 1}. ${esc(n)}</text>`));
+  o.push(`</svg>`);
+  return o.join("\n");
+}
+
+
+(function () {
+  const D = DATA, N = D.stages.length;
+  const mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  const pal = () => PALETTES.dark;
+  let i = 9, sel = null, timer = null;
+  const $ = id => document.getElementById(id);
+  const label = { live: "LIVE ON MAINNET", testnet: "ON TESTNET", planned: "PLANNED", research: "RESEARCH" };
+
+  // timeline + eras
+  const tl = $("tl"), era = $("era");
+  D.stages.forEach((s, j) => {
+    const b = document.createElement("button");
+    b.className = "stop " + s.status; b.dataset.j = j;
+    b.innerHTML = `<b>${esc(s.name)}</b><small>${esc(s.date)}</small>`;
+    b.onclick = () => go(j);
+    tl.appendChild(b);
+  });
+  const now = document.createElement("div"); now.className = "now"; now.innerHTML = "<span>today ▸</span>";
+  now.style.left = `calc(${(10 / N) * 100}% - 2px)`; tl.appendChild(now);
+  let j0 = 0;
+  for (let j = 1; j <= N; j++) if (j === N || D.stages[j].era !== D.stages[j0].era) {
+    const sp = document.createElement("span"); sp.textContent = D.stages[j0].era;
+    sp.style.gridColumn = `${j0 + 1} / ${j + 1}`; era.appendChild(sp); j0 = j;
+  }
+
+  // matrix table
+  function buildMatrix() {
+    const t = $("mx"); let h = "<thead><tr><th class='rowh'>Part</th>";
+    D.stages.forEach((s, j) => h += `<th data-j="${j}">${esc(s.name)}<small>${esc(s.date)}</small></th>`);
+    h += "</tr></thead><tbody>";
+    for (const L of D.layers) {
+      h += `<tr class="layer"><td colspan="${N + 1}">${esc(L.name)}</td></tr>`;
+      for (const s of D.slots.filter(x => x.layer === L.id)) {
+        h += `<tr><th class="rowh">${esc(s.label)}</th>`;
+        for (let j = 0; j < N; j++) {
+          const ss = slotState(s, j), st = D.stages[j];
+          if (ss.kind === "absent") { h += `<td class="c" data-j="${j}" data-s="${s.id}"></td>`; continue; }
+          if (ss.kind === "same") { h += `<td class="c same" data-j="${j}" data-s="${s.id}"></td>`; continue; }
+          const cls = st.status === "research" ? "res" : st.status !== "live" ? "fut" : ss.kind;
+          h += `<td class="c ${cls}" data-j="${j}" data-s="${s.id}" title="${esc(ss.detail)}">${esc(ss.title)}</td>`;
+        }
+        h += "</tr>";
+      }
+    }
+    h += `<tr class="layer"><td colspan="${N + 1}">Spec change size (measured)</td></tr><tr class="spec"><th class="rowh">EL code diff (EELS)</th>`;
+    D.stages.forEach(s => { const a = s.spec.diff.reduce((x, d) => x + d[3], 0), b = s.spec.diff.reduce((x, d) => x + d[4], 0); h += `<td>${a + b ? `+${a.toLocaleString("en-US")}<br>−${b.toLocaleString("en-US")}` : ""}</td>`; });
+    h += `</tr><tr class="spec"><th class="rowh">CL spec lines</th>`;
+    D.stages.forEach(s => h += `<td>${s.spec.cll ? s.spec.cll.toLocaleString("en-US") : ""}</td>`);
+    h += `</tr>`;
+    t.innerHTML = h + "</tbody>";
+    t.addEventListener("click", e => {
+      const c = e.target.closest("[data-j]"); if (!c) return;
+      if (c.dataset.s) sel = c.dataset.s;
+      go(+c.dataset.j);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  function panel() {
+    const s = D.stages[i];
+    let h = `<span class="pill ${s.status}">${label[s.status]}</span><span class="mono" style="font-size:12px;color:var(--muted)">${i + 1} / ${N}</span>`;
+    h += `<h2 style="margin-top:10px">${esc(s.name)}</h2><div class="sub">${esc(s.sub)} · ${esc(s.date)}</div>`;
+    h += `<div>${esc(s.summary)}</div>`;
+    if (sel) {
+      const slot = D.slots.find(x => x.id === sel);
+      h += `<h3>Component history: ${esc(slot.label)} <button class="btn close" id="clr" style="padding:2px 8px;font-size:11px">×</button></h3><ul class="hist">`;
+      if (!slotState(slot, i).since && slotState(slot, i).kind === "absent") h += `<li><span class="when">now</span><span>Not part of the protocol at ${esc(s.name)}.</span></li>`;
+      const cur = slotState(slot, i).since;
+      for (const e of slot.ev) {
+        h += `<li data-j="${e[0]}" class="${e[0] === cur ? "cur" : ""}"><span class="when">${esc(D.stages[e[0]].name.split(" ")[0])}</span><span>${esc(e[1])}<em>${esc(e[2])}${e[4] ? " · book " + esc(e[4]) : ""}</em></span></li>`;
+      }
+      h += `</ul>`;
+    }
+    h += `<h3>What changed</h3><ol>${s.changes.map(c => `<li>${esc(c)}</li>`).join("")}</ol>`;
+    if (s.tracks.length) h += `<h3>Roadmap track (book ch1)</h3><div class="chips">${s.tracks.map(t => `<span>The ${esc(t)}</span>`).join("")}</div>`;
+    h += `<h3>In the book</h3><div class="chips">${s.book.map(c => `<span>ch${c}</span>`).join("")}</div>`;
+    h += `<div class="note">${esc(s.bookNote)}</div>`;
+    const sp = s.spec, GH = "https://github.com/ethereum/";
+    if (sp.el.length || sp.cl.length) {
+      h += `<h3>In the specs</h3><div class="chips">`;
+      h += sp.el.map(f => `<span><a href="${GH}execution-specs/tree/HEAD/src/ethereum/forks/${f}">EL: ${esc(f)}</a></span>`).join("");
+      h += sp.cl.map(f => `<span><a href="${GH}consensus-specs/tree/HEAD/specs/${f}">CL: ${esc(f)}</a></span>`).join("");
+      h += sp.meta.map(n => `<span><a href="https://eips.ethereum.org/EIPS/eip-${n}">Meta EIP-${n}</a></span>`).join("");
+      h += `</div>`;
+      if (sp.diff.length) h += `<ul class="specl">${sp.diff.map(d => `<li><span class="mono">${esc(d[0])} → ${esc(d[1])}</span>: ${d[2]} files, <b style="color:var(--nw)">+${d[3].toLocaleString("en-US")}</b> / <b style="color:var(--ch)">−${d[4].toLocaleString("en-US")}</b> lines</li>`).join("")}</ul>`;
+      if (sp.cll) h += `<div class="small">CL spec docs for ${esc(sp.cl.join(" + "))}: ${sp.cll.toLocaleString("en-US")} lines (each doc lists only what changed).</div>`;
+      if (sp.engine.length && sp.cl.length) h += `<div class="small">Engine API: <span class="mono">${sp.engine.map(esc).join(", ")}</span></div>`;
+    }
+    $("panel").innerHTML = h;
+    const clr = $("clr"); if (clr) clr.onclick = () => { sel = null; draw(); };
+    $("panel").querySelectorAll(".hist li[data-j]").forEach(li => li.onclick = () => go(+li.dataset.j));
+  }
+
+  let svgText = "";
+  function draw() {
+    svgText = renderStage(D, i, pal(), { selected: sel });
+    $("svg").innerHTML = svgText;
+    const s = D.stages[i];
+    const changed = D.slots.filter(x => { const k = slotState(x, i).kind; return k === "new" || k === "changed"; }).length;
+    $("cap").textContent = `${s.name}: ${changed} of ${D.slots.length} components are new or changed. ${s.status === "live" ? "Live on mainnet." : s.status === "testnet" ? "Running on testnets; no mainnet date." : s.status === "planned" ? "Planned; scope still open." : "Research direction, not scheduled."}`;
+    tl.querySelectorAll(".stop").forEach(b => b.setAttribute("aria-current", +b.dataset.j === i ? "true" : "false"));
+    document.querySelectorAll("#mx [data-j]").forEach(c => c.classList.toggle("cur-col", +c.dataset.j === i && c.tagName === "TH"));
+    document.querySelectorAll("#mx td.c").forEach(c => c.classList.toggle("cur-col", +c.dataset.j === i && c.dataset.s === sel));
+    panel();
+  }
+
+  function go(j) {
+    i = Math.max(0, Math.min(N - 1, j));
+    if (location.hash.slice(1) !== D.stages[i].id) { try { history.replaceState(null, "", "#" + D.stages[i].id); } catch (e) { location.hash = D.stages[i].id; } }
+    draw();
+  }
+  function fromHash() { const k = D.stages.findIndex(s => s.id === location.hash.slice(1)); if (k >= 0 && k !== i) { i = k; draw(); } }
+
+  $("svg").addEventListener("click", e => { const g = e.target.closest("[data-slot]"); if (!g) return; sel = sel === g.dataset.slot ? null : g.dataset.slot; draw(); });
+  $("prev").onclick = () => go(i - 1);
+  $("next").onclick = () => go(i + 1);
+  $("play").onclick = () => {
+    if (timer) { clearInterval(timer); timer = null; $("play").textContent = "▶ Play"; return; }
+    if (i >= N - 1) go(0);
+    $("play").textContent = "❚❚ Pause";
+    timer = setInterval(() => { if (i >= N - 1) { clearInterval(timer); timer = null; $("play").textContent = "▶ Play"; return; } go(i + 1); }, 2200);
+  };
+  $("copy").onclick = async () => {
+    try { await navigator.clipboard.writeText(svgText); $("toast").textContent = "SVG copied"; }
+    catch (e) { $("toast").textContent = "Copy blocked by the browser"; }
+    setTimeout(() => $("toast").textContent = "", 2200);
+  };
+  document.addEventListener("keydown", e => { if (e.target.closest && e.target.closest("input,textarea")) return; if (e.key === "ArrowRight") go(i + 1); if (e.key === "ArrowLeft") go(i - 1); });
+  window.addEventListener("hashchange", fromHash);
+  if (mq && mq.addEventListener) mq.addEventListener("change", draw);
+
+  $("src").innerHTML = D.sources.map(([t, u]) => `<li><a href="${u}">${esc(t)}</a></li>`).join("");
+  buildMatrix();
+  const k = D.stages.findIndex(s => s.id === location.hash.slice(1)); if (k >= 0) i = k;
+  draw();
+})();
+</script>
+</body>
+</html>

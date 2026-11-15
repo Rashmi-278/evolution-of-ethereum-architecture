@@ -1,0 +1,70 @@
+{
+  "note": "Simplified one-glance model. Stage indices match architecture.json. Each block event: [stage, text, kind]. kind: new | changed.",
+  "plain": [
+    { "lines": ["One program runs everything: network, mining, EVM and storage.", "Miners order transactions and earn new ETH.", "Smart contracts run inside the EVM."], "why": "This is the base design. Every later upgrade changes a part of it." },
+    { "lines": ["After 2016 attacks, disk-heavy opcodes cost more gas.", "A chain ID stops replay of transactions on other chains.", "The DAO fork splits off Ethereum Classic."], "why": "Ethereum learns to change its rules by social agreement." },
+    { "lines": ["New EVM tools: REVERT, CREATE2 and zk-proof checks.", "The miner reward drops from 5 to 3 to 2 ETH per block."], "why": "First zk proofs on-chain. Less new ETH." },
+    { "lines": ["Data inside transactions costs 4x less gas.", "zk-proof checks get cheaper."], "why": "Rollups become possible on top of Ethereum." },
+    { "lines": ["A proof-of-stake chain starts beside the old chain.", "Part of every fee is burned (EIP-1559).", "Light clients get sync committees."], "why": "The new engine warms up. ETH supply can now shrink." },
+    { "lines": ["Mining stops. Validators with staked ETH make blocks.", "A node becomes two programs, linked by the Engine API.", "Outside builders sell full blocks to validators (MEV-Boost)."], "why": "Ethereum swaps its engine without stopping the chain." },
+    { "lines": ["Stakers can withdraw their ETH.", "Smart wallets launch as apps (ERC-4337)."], "why": "Staking becomes a two-way door." },
+    { "lines": ["Blobs: a cheap data lane for rollups, deleted after ~18 days.", "Blobs have their own fee market.", "Contracts get temporary storage (TSTORE)."], "why": "L2 fees drop sharply." },
+    { "lines": ["Normal wallets can run smart-contract code (EIP-7702).", "One validator can hold up to 2,048 ETH.", "Blob space doubles: 6 target, 9 max."], "why": "Better wallets. Fewer validator messages." },
+    { "lines": ["Nodes check blob data by sampling small pieces (PeerDAS).", "Blob space grows to 14 / 21 in small steps (BPO forks).", "Default block gas limit: 60M."], "why": "More rollup data, without bigger nodes." },
+    { "lines": ["Block building moves inside the protocol (ePBS).", "Each block lists what it touches, so checks run in parallel.", "Storage costs more gas. Gas limit target: 200M."], "why": "Bigger blocks and less trust in relays. Testnet only." },
+    { "lines": ["Validator committees force transactions into blocks (FOCIL).", "Accounts choose their own signature rules (frame transactions)."], "why": "Censorship resistance becomes a protocol rule. Planned." },
+    { "lines": ["Validators check a zk proof instead of re-running blocks.", "A binary state tree lets phones verify the chain.", "Fast finality and post-quantum signatures."], "why": "A research direction. Not scheduled." }
+  ],
+  "blocks": [
+    { "id": "accounts", "label": "Accounts", "ev": [
+      [0, "Wallets (one key) and contracts", "new"],
+      [6, "+ smart wallets as apps (ERC-4337)", "changed"],
+      [8, "Wallets can run code (EIP-7702)", "changed"],
+      [11, "Accounts set their own rules", "changed"] ] },
+    { "id": "building", "label": "Who builds blocks", "ev": [
+      [0, "Miners", "new"],
+      [5, "Validators + outside builders", "changed"],
+      [10, "Builders inside the protocol (ePBS)", "changed"],
+      [11, "+ committees force inclusion", "changed"] ] },
+    { "id": "consensus", "label": "Consensus", "ev": [
+      [0, "Proof of work (mining)", "new"],
+      [2, "Proof of work, smaller reward", "changed"],
+      [4, "PoW, with a PoS chain beside it", "changed"],
+      [5, "Proof of stake (Gasper)", "changed"],
+      [6, "Proof of stake + withdrawals", "changed"],
+      [8, "PoS, validators up to 2,048 ETH", "changed"],
+      [12, "Fast finality, post-quantum keys", "changed"] ] },
+    { "id": "execution", "label": "Execution (EVM)", "ev": [
+      [0, "Every node re-runs every tx", "new"],
+      [2, "+ zk checks, CREATE2", "changed"],
+      [7, "+ temporary storage", "changed"],
+      [9, "+ passkey signatures", "changed"],
+      [10, "Parallel checks (access lists)", "changed"],
+      [12, "Check a zk proof, no re-run", "changed"] ] },
+    { "id": "state", "label": "State", "ev": [
+      [0, "Merkle-Patricia trie", "new"],
+      [9, "Trie + old history pruned", "changed"],
+      [12, "Binary tree, small proofs", "changed"] ] },
+    { "id": "data", "label": "Data for rollups", "ev": [
+      [0, "Calldata only, kept forever", "new"],
+      [3, "Cheaper calldata", "changed"],
+      [7, "Blobs, deleted after ~18 days", "changed"],
+      [8, "More blobs", "changed"],
+      [9, "Blobs, checked by sampling", "changed"],
+      [12, "Full danksharding", "changed"] ] },
+    { "id": "l2", "label": "Rollups (L2)", "ev": [
+      [2, "Channels and Plasma", "new"],
+      [4, "Rollups post calldata", "changed"],
+      [7, "Rollups post blobs", "changed"],
+      [12, "Native rollups", "changed"] ] }
+  ],
+  "node": [
+    [0, "Every node: one program"],
+    [4, "Every node: one program + a beacon node beside it"],
+    [5, "Every node: two programs"],
+    [12, "Every node: light, proof-checking"]
+  ],
+  "gasLimitM": [0.005, 4.7, 8, 10, 30, 30, 30, 30, 45, 60, 200, 200, 1000],
+  "gasNote": ["5,000 at launch", "~4.7M", "~8M", "~10M", "30M max", "30M max", "30M max", "30M max", "36M → 45M", "60M", "200M target", "200M target", "gigagas goal"],
+  "blobs": [null, null, null, null, null, null, null, [3, 6], [6, 9], [14, 21], [14, 21], [14, 21], null]
+}

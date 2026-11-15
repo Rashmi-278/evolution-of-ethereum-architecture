@@ -1,0 +1,18 @@
+{
+  "mechanics": [
+    { "stage": 0, "when": "Jul 2015", "title": "5 ETH per block", "text": "Miners earn 5 ETH per block, plus uncle rewards. Fees go to the miner.", "src": ["Ethereum Yellow Paper", "https://ethereum.github.io/yellowpaper/paper.pdf"] },
+    { "stage": 2, "when": "Oct 2017", "title": "3 ETH per block", "text": "Byzantium cuts the block reward to 3 ETH (EIP-649).", "src": ["EIP-649", "https://eips.ethereum.org/EIPS/eip-649"] },
+    { "stage": 2, "when": "Feb 2019", "title": "2 ETH per block", "text": "Constantinople cuts the block reward to 2 ETH (EIP-1234).", "src": ["EIP-1234", "https://eips.ethereum.org/EIPS/eip-1234"] },
+    { "stage": 4, "when": "Aug 2021", "title": "Fees start to burn", "text": "London burns the base fee of every transaction (EIP-1559). Supply can now shrink when use is high.", "src": ["EIP-1559", "https://eips.ethereum.org/EIPS/eip-1559"] },
+    { "stage": 5, "when": "Sep 2022", "title": "Mining issuance ends", "text": "The Merge removes block rewards. New ETH goes only to validators, and the amount grows with total stake.", "src": ["Mastering Ethereum ch15", "https://github.com/Rashmi-278/ethereumbook-animated/blob/main/src/chapter_15.md"] },
+    { "stage": 7, "when": "Mar 2024", "title": "Blob fees burn too", "text": "Dencun adds blob gas. The blob base fee is burned, like the normal base fee (EIP-4844).", "src": ["EIP-4844", "https://eips.ethereum.org/EIPS/eip-4844"] },
+    { "stage": 9, "when": "Dec 2025", "title": "Blob fee floor", "text": "Fusaka ties the minimum blob fee to execution cost (EIP-7918), so cheap blobs still burn some ETH.", "src": ["EIP-7918", "https://eips.ethereum.org/EIPS/eip-7918"] }
+  ],
+  "narratives": [
+    { "label": "Crypto-fuel", "when": "2014", "text": "The whitepaper calls ether the main internal crypto-fuel of Ethereum: it pays for transactions.", "src": ["Ethereum whitepaper", "https://ethereum.org/whitepaper"], "confirmed": true },
+    { "label": "Triple-point asset", "when": "2019", "text": "Bankless frames ETH as three assets at once: capital (staking), consumable (gas) and store of value.", "src": ["Bankless", "https://www.bankless.com/read/productive-money-the-eth-thesis-grows-up"], "confirmed": true },
+    { "label": "Ultrasound money", "when": "2021", "text": "With the EIP-1559 burn, supporters argue ETH can become deflationary, 'better than sound money'.", "src": ["Yahoo Finance / Decrypt", "https://finance.yahoo.com/markets/crypto/articles/vitalik-buterin-moves-ultrasound-money-171410370.html"], "confirmed": true },
+    { "label": "Security budget", "when": "to confirm", "text": "ETH's value pays for the security of the chain: staked ETH is what an attacker must beat.", "src": ["@yq_acc post (text pending)", "https://x.com/yq_acc/status/2121227653441048884"], "confirmed": false },
+    { "label": "Store of value", "when": "Nov 2026", "text": "Vitalik says to stop valuing ETH by fee burn. Its value is stability from decentralization, censorship resistance and security.", "src": ["ZeroHedge / Decrypt", "https://www.zerohedge.com/crypto/vitalik-buterin-moves-ultrasound-money-says-eths-value-stability"], "confirmed": true }
+  ]
+}

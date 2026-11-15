@@ -1,0 +1,1674 @@
+{
+ "bookUrl": "https://github.com/Rashmi-278/ethereumbook-animated",
+ "stages": [
+  {
+   "id": "frontier",
+   "spec": {
+    "el": [
+     "frontier"
+    ],
+    "cl": [],
+    "meta": [],
+    "diff": [],
+    "cll": 0,
+    "engine": []
+   },
+   "name": "Frontier",
+   "sub": "Genesis",
+   "date": "30 Jul 2015",
+   "status": "live",
+   "era": "Ethereum 1.0",
+   "summary": "One client does everything: P2P, PoW mining, EVM execution, state storage. Blocks start at 5,000 gas.",
+   "changes": [
+    "Ethash PoW (proof of work) with a difficulty bomb",
+    "EVM: stack machine that runs gas-metered bytecode",
+    "World state in a hexary Merkle-Patricia trie",
+    "devp2p networking on TCP port 30303",
+    "Two account types: EOA and contract"
+   ],
+   "tracks": [],
+   "book": [
+    1,
+    3,
+    14,
+    15
+   ],
+   "bookNote": "Chapter 1 lists these components: P2P network, consensus rules, transactions, state machine, data structures, clients."
+  },
+  {
+   "id": "homestead",
+   "spec": {
+    "el": [
+     "homestead",
+     "dao_fork",
+     "tangerine_whistle",
+     "spurious_dragon"
+    ],
+    "cl": [],
+    "meta": [],
+    "diff": [
+     [
+      "frontier",
+      "homestead",
+      12,
+      146,
+      41
+     ],
+     [
+      "homestead",
+      "tangerine_whistle",
+      8,
+      125,
+      74
+     ],
+     [
+      "tangerine_whistle",
+      "spurious_dragon",
+      12,
+      209,
+      55
+     ]
+    ],
+    "cll": 0,
+    "engine": []
+   },
+   "name": "Homestead → Spurious Dragon",
+   "sub": "Homestead, DAO fork, Tangerine Whistle, Spurious Dragon",
+   "date": "Mar – Nov 2016",
+   "status": "live",
+   "era": "Ethereum 1.0",
+   "summary": "Four 2016 forks harden the chain. Homestead stabilises it, the DAO fork reverses the DAO hack, and two forks fix DoS attacks. The architecture stays the same.",
+   "changes": [
+    "Homestead: EIP-2 safer creation, EIP-7 DELEGATECALL",
+    "DAO fork (Jul 2016): irregular state change; Ethereum Classic splits off",
+    "Tangerine Whistle: EIP-150 reprices IO opcodes after DoS attacks",
+    "Spurious Dragon: EIP-155 replay protection with chain ID",
+    "Spurious Dragon: EIP-170 24 KB contract size limit; EIP-161 state clearing"
+   ],
+   "tracks": [],
+   "book": [
+    1
+   ],
+   "bookNote": "Chapter 1 names EIP-2, EIP-7 and EIP-8 as the key Homestead changes. Chapter 3 mentions the 2016 DoS attacks. The book does not name Tangerine Whistle or Spurious Dragon; EELS has a folder for each."
+  },
+  {
+   "id": "metropolis",
+   "spec": {
+    "el": [
+     "byzantium",
+     "constantinople"
+    ],
+    "cl": [],
+    "meta": [],
+    "diff": [
+     [
+      "spurious_dragon",
+      "byzantium",
+      19,
+      756,
+      72
+     ],
+     [
+      "byzantium",
+      "constantinople",
+      12,
+      364,
+      114
+     ]
+    ],
+    "cll": 0,
+    "engine": []
+   },
+   "name": "Byzantium + Constantinople",
+   "sub": "Metropolis",
+   "date": "Oct 2017 – Feb 2019",
+   "status": "live",
+   "era": "Ethereum 1.0",
+   "summary": "Metropolis adds new opcodes and the first zk-SNARK precompiles. Block rewards drop and the difficulty bomb moves back.",
+   "changes": [
+    "REVERT, STATICCALL, RETURNDATA opcodes",
+    "alt_bn128 precompiles: on-chain zk-SNARK checks",
+    "CREATE2 (EIP-1014): addresses known before deploy",
+    "Bitwise shift opcodes SHL, SHR, SAR",
+    "Block reward 5 → 3 → 2 ETH"
+   ],
+   "tracks": [],
+   "book": [
+    1,
+    14,
+    17
+   ],
+   "bookNote": "Chapter 1 groups Byzantium, Constantinople and Istanbul under Metropolis. Chapter 14 covers CREATE vs CREATE2."
+  },
+  {
+   "id": "istanbul",
+   "spec": {
+    "el": [
+     "istanbul",
+     "muir_glacier"
+    ],
+    "cl": [],
+    "meta": [],
+    "diff": [
+     [
+      "constantinople",
+      "istanbul",
+      15,
+      216,
+      75
+     ]
+    ],
+    "cll": 0,
+    "engine": []
+   },
+   "name": "Istanbul",
+   "sub": "Metropolis, part 2",
+   "date": "8 Dec 2019",
+   "status": "live",
+   "era": "Ethereum 1.0",
+   "summary": "Calldata gets 4x cheaper and zk precompiles get cheaper. This makes the first rollup designs viable on L1.",
+   "changes": [
+    "EIP-2028: calldata 68 → 16 gas per non-zero byte",
+    "EIP-1108: cheaper alt_bn128 precompiles",
+    "EIP-1344: CHAINID opcode",
+    "EIP-1884: repricing of state-access opcodes"
+   ],
+   "tracks": [],
+   "book": [
+    1,
+    16
+   ],
+   "bookNote": "Chapter 1 credits Istanbul with zk support for scaling and privacy."
+  },
+  {
+   "id": "beacon-london",
+   "spec": {
+    "el": [
+     "berlin",
+     "london",
+     "arrow_glacier"
+    ],
+    "cl": [
+     "phase0",
+     "altair"
+    ],
+    "meta": [
+     7568
+    ],
+    "diff": [
+     [
+      "istanbul",
+      "berlin",
+      15,
+      495,
+      154
+     ],
+     [
+      "berlin",
+      "london",
+      15,
+      433,
+      100
+     ]
+    ],
+    "cll": 12151,
+    "engine": []
+   },
+   "name": "Beacon + London",
+   "sub": "Beacon Chain, Berlin, London, Altair",
+   "date": "Dec 2020 – Oct 2021",
+   "status": "live",
+   "era": "Transition",
+   "summary": "A separate PoS chain (the Beacon Chain) starts beside the PoW chain. The PoW chain gets typed transactions and the EIP-1559 fee market.",
+   "changes": [
+    "Beacon Chain genesis (1 Dec 2020): validators deposit 32 ETH",
+    "Berlin: typed tx envelope (EIP-2718) and access lists (EIP-2930)",
+    "London: EIP-1559 base fee is burned, tip goes to producer",
+    "Altair: sync committees for light clients",
+    "Optimistic rollups go live on calldata"
+   ],
+   "tracks": [
+    "Merge"
+   ],
+   "book": [
+    6,
+    14,
+    15,
+    16
+   ],
+   "bookNote": "Chapter 6 explains type 0x01 and 0x02 transactions. Chapter 15 explains the Beacon Chain and Gasper."
+  },
+  {
+   "id": "merge",
+   "spec": {
+    "el": [
+     "gray_glacier",
+     "paris"
+    ],
+    "cl": [
+     "bellatrix"
+    ],
+    "meta": [
+     7568
+    ],
+    "diff": [
+     [
+      "london",
+      "paris",
+      14,
+      152,
+      511
+     ]
+    ],
+    "cll": 1828,
+    "engine": [
+     "newPayloadV1",
+     "forkchoiceUpdatedV1"
+    ]
+   },
+   "name": "The Merge",
+   "sub": "Paris (EL) + Bellatrix (CL)",
+   "date": "15 Sep 2022",
+   "status": "live",
+   "era": "Serenity",
+   "summary": "PoW stops. A node is now two programs: a consensus client and an execution client, joined by the Engine API.",
+   "changes": [
+    "Ethash removed; Gasper (LMD-GHOST + Casper FFG) secures the chain",
+    "Node = consensus client + execution client",
+    "Engine API links the two clients",
+    "12-second slots, 32-slot epochs, finality in ~2 epochs",
+    "MEV-Boost relays and builders appear off-protocol"
+   ],
+   "tracks": [
+    "Merge"
+   ],
+   "book": [
+    3,
+    15,
+    16
+   ],
+   "bookNote": "Chapter 3 shows the two-client node (Figure 3-1). Chapter 15 explains slots, epochs, justification and finality."
+  },
+  {
+   "id": "shapella",
+   "spec": {
+    "el": [
+     "shanghai"
+    ],
+    "cl": [
+     "capella"
+    ],
+    "meta": [
+     7568
+    ],
+    "diff": [
+     [
+      "paris",
+      "shanghai",
+      15,
+      234,
+      81
+     ]
+    ],
+    "cll": 1768,
+    "engine": [
+     "newPayloadV2",
+     "forkchoiceUpdatedV2"
+    ]
+   },
+   "name": "Shapella",
+   "sub": "Shanghai (EL) + Capella (CL)",
+   "date": "12 Apr 2023",
+   "status": "live",
+   "era": "Serenity",
+   "summary": "Staked ETH can leave the Beacon Chain. Withdrawals finish the Merge.",
+   "changes": [
+    "EIP-4895: validator withdrawals to EL addresses",
+    "EIP-3855: PUSH0 opcode",
+    "EIP-3860: limit on initcode size",
+    "ERC-4337 smart accounts launch at the app layer (Mar 2023)"
+   ],
+   "tracks": [
+    "Merge",
+    "Splurge"
+   ],
+   "book": [
+    5,
+    14,
+    15
+   ],
+   "bookNote": "Chapter 5 covers ERC-4337 account abstraction."
+  },
+  {
+   "id": "dencun",
+   "spec": {
+    "el": [
+     "cancun"
+    ],
+    "cl": [
+     "deneb"
+    ],
+    "meta": [
+     7569
+    ],
+    "diff": [
+     [
+      "shanghai",
+      "cancun",
+      23,
+      881,
+      104
+     ]
+    ],
+    "cll": 2580,
+    "engine": [
+     "newPayloadV3",
+     "forkchoiceUpdatedV3",
+     "getBlobsV1"
+    ]
+   },
+   "name": "Dencun",
+   "sub": "Cancun (EL) + Deneb (CL)",
+   "date": "13 Mar 2024",
+   "status": "live",
+   "era": "Serenity",
+   "summary": "Proto-danksharding adds blobs: a second data lane for rollups with its own fee market. Blobs travel on the consensus layer and expire after ~18 days.",
+   "changes": [
+    "EIP-4844: blob transactions (type 0x03), target 3 / max 6 blobs",
+    "KZG commitments from the KZG ceremony",
+    "EIP-1153 TSTORE/TLOAD and EIP-5656 MCOPY",
+    "EIP-6780: SELFDESTRUCT only works in the same tx",
+    "EIP-4788: beacon block root inside the EVM"
+   ],
+   "tracks": [
+    "Surge"
+   ],
+   "book": [
+    4,
+    6,
+    14,
+    16
+   ],
+   "bookNote": "Chapter 4 explains KZG commitments. Chapter 16 explains proto-danksharding and why blobs expire."
+  },
+  {
+   "id": "pectra",
+   "spec": {
+    "el": [
+     "prague"
+    ],
+    "cl": [
+     "electra"
+    ],
+    "meta": [
+     7600
+    ],
+    "diff": [
+     [
+      "cancun",
+      "prague",
+      23,
+      2184,
+      134
+     ]
+    ],
+    "cll": 3657,
+    "engine": [
+     "newPayloadV4",
+     "getPayloadV4"
+    ]
+   },
+   "name": "Pectra",
+   "sub": "Prague (EL) + Electra (CL)",
+   "date": "7 May 2025",
+   "status": "live",
+   "era": "Serenity",
+   "summary": "EOAs can run contract code. Validators can hold up to 2,048 ETH. Blob capacity doubles. This is the last fork the book covers in full.",
+   "changes": [
+    "EIP-7702: EOAs delegate to contract code (type 0x04)",
+    "EIP-7251: max effective balance 32 → 2,048 ETH",
+    "EIP-7002 + EIP-6110: exits and deposits triggered from the EL",
+    "EIP-7691: blobs target 6 / max 9",
+    "EIP-7623: higher calldata floor; EIP-2537: BLS precompile"
+   ],
+   "tracks": [
+    "Splurge",
+    "Surge"
+   ],
+   "book": [
+    5,
+    6,
+    14
+   ],
+   "bookNote": "Chapter 14 explains the 0xef0100 delegation designator. Book snapshot ends June 2025, one month after Pectra."
+  },
+  {
+   "id": "fusaka",
+   "spec": {
+    "el": [
+     "osaka",
+     "bpo1",
+     "bpo2"
+    ],
+    "cl": [
+     "fulu"
+    ],
+    "meta": [
+     7607,
+     8134,
+     8135
+    ],
+    "diff": [
+     [
+      "prague",
+      "osaka",
+      18,
+      299,
+      109
+     ]
+    ],
+    "cll": 2992,
+    "engine": [
+     "getPayloadV5",
+     "getBlobsV2 / V3"
+    ]
+   },
+   "name": "Fusaka",
+   "sub": "Osaka (EL) + Fulu (CL)",
+   "date": "3 Dec 2025",
+   "status": "live",
+   "era": "Serenity",
+   "summary": "Nodes stop downloading every blob. PeerDAS lets each node keep and sample a subset of data columns. Blob limits now rise through small BPO forks.",
+   "changes": [
+    "EIP-7594 PeerDAS: data availability sampling by peers",
+    "EIP-7892 BPO forks: BPO1 10/15 (9 Dec 2025), BPO2 14/21 (7 Jan 2026)",
+    "EIP-7935: default gas limit 60M; EIP-7825: tx gas cap 2^24",
+    "EIP-7951 secp256r1 precompile (passkeys); EIP-7939 CLZ opcode",
+    "EIP-7917 proposer lookahead; EIP-7918 blob base fee floor"
+   ],
+   "tracks": [
+    "Surge"
+   ],
+   "book": [
+    16
+   ],
+   "bookNote": "After the book. Chapter 16 describes DAS as a danksharding goal; PeerDAS is the first live form of it."
+  },
+  {
+   "id": "glamsterdam",
+   "spec": {
+    "el": [
+     "amsterdam"
+    ],
+    "cl": [
+     "gloas"
+    ],
+    "meta": [
+     7773
+    ],
+    "diff": [
+     [
+      "osaka",
+      "amsterdam",
+      41,
+      4385,
+      1693
+     ]
+    ],
+    "cll": 7176,
+    "engine": [
+     "newPayloadV5",
+     "forkchoiceUpdatedV4"
+    ]
+   },
+   "name": "Glamsterdam",
+   "sub": "Amsterdam (EL) + Gloas (CL)",
+   "date": "Mainnet date not set",
+   "status": "testnet",
+   "era": "Serenity",
+   "summary": "Block building moves into the protocol (ePBS). Blocks carry an access list so clients can validate transactions in parallel. Meta EIP-7773 schedules 18 core EIPs. Sepolia forked 6 Oct 2026; the Hoodi fork is on hold over gas-repricing risks.",
+   "changes": [
+    "EIP-7732 ePBS: builders bid in-protocol; Payload Timeliness Committee",
+    "EIP-7928 Block-Level Access Lists: parallel validation and state prefetch",
+    "Gas model: EIP-2780, 7778, 7976, 7981, 8037, 8038 (state costs more, refunds leave block accounting)",
+    "EVM and accounts: EIP-7843 SLOTNUM, 8024 SWAPN/DUPN, 7954 larger contracts, 7708 ETH transfers emit logs",
+    "Validators: EIP-8045, 8061, 8282; networking: eth/70, eth/71, eth/72 sparse blobpool"
+   ],
+   "tracks": [
+    "Scourge",
+    "Surge",
+    "Verge"
+   ],
+   "book": [
+    14,
+    15,
+    16
+   ],
+   "bookNote": "Chapter 14 lists ePBS as a step toward statelessness. Chapter 16 explains PBS and parallel execution as open research; both now have specs."
+  },
+  {
+   "id": "hegota",
+   "spec": {
+    "el": [
+     "bogota"
+    ],
+    "cl": [
+     "heze"
+    ],
+    "meta": [
+     8081
+    ],
+    "diff": [
+     [
+      "amsterdam",
+      "bogota",
+      14,
+      117,
+      143
+     ]
+    ],
+    "cll": 1866,
+    "engine": [
+     "newPayloadV6",
+     "forkchoiceUpdatedV5",
+     "getInclusionListV1"
+    ]
+   },
+   "name": "Hegotá",
+   "sub": "Bogotá (EL) + Heze (CL)",
+   "date": "Target Q2 2027, not confirmed",
+   "status": "planned",
+   "era": "Serenity",
+   "summary": "Censorship resistance becomes a protocol rule (FOCIL). Accounts choose their own validation logic (frame transactions). The rest of the scope is still open.",
+   "changes": [
+    "EIP-7805 FOCIL: committee inclusion lists, enforced by fork choice",
+    "EIP-8141 frame transactions: native account abstraction",
+    "Frame txs allow post-quantum signature schemes",
+    "Other EIPs only under consideration (meta EIP-8081)"
+   ],
+   "tracks": [
+    "Scourge",
+    "Splurge"
+   ],
+   "book": [
+    5,
+    15
+   ],
+   "bookNote": "After the book. Chapter 5 ends with 'the future of account abstraction'; frame transactions are the current answer."
+  },
+  {
+   "id": "lean",
+   "spec": {
+    "el": [],
+    "cl": [],
+    "meta": [],
+    "diff": [],
+    "cll": 0,
+    "engine": [
+     "newPayloadV6",
+     "forkchoiceUpdatedV5"
+    ]
+   },
+   "name": "Lean Ethereum",
+   "sub": "Strawmap forks to ~2029",
+   "date": "Research, 2027 → 2029+",
+   "status": "research",
+   "era": "Lean era",
+   "summary": "A multi-fork redesign of all three layers: lean consensus, lean data, lean execution. Validators verify zk proofs instead of re-executing blocks.",
+   "changes": [
+    "Binary state tree (EIP-7864) replaces the hexary MPT",
+    "zkEVM real-time proofs: verify, do not re-execute",
+    "Lean consensus: faster finality, shorter slots, PQ signatures",
+    "Full danksharding: far more blob space for L2s",
+    "Possible VM change (RISC-V) is still contested"
+   ],
+   "tracks": [
+    "Verge",
+    "Surge",
+    "Purge",
+    "Merge"
+   ],
+   "book": [
+    14,
+    16,
+    17
+   ],
+   "bookNote": "Chapter 16 describes Verkle trees for statelessness. Current plans favour a binary hash tree; the book's note on 'other hash-based binary trees' anticipated this."
+  }
+ ],
+ "layers": [
+  {
+   "id": "accounts",
+   "name": "Accounts & transactions"
+  },
+  {
+   "id": "production",
+   "name": "Block production"
+  },
+  {
+   "id": "node",
+   "name": "Ethereum node"
+  },
+  {
+   "id": "da",
+   "name": "Data availability"
+  },
+  {
+   "id": "l2",
+   "name": "L2 & verification"
+  }
+ ],
+ "slots": [
+  {
+   "id": "acct_eoa",
+   "layer": "accounts",
+   "label": "EOA",
+   "x": 40,
+   "y": 64,
+   "w": 380,
+   "h": 74,
+   "ev": [
+    [
+     0,
+     "EOA: one key, no code",
+     "Holds ETH. Signs txs with one secp256k1 key. Cannot hold code.",
+     "new",
+     "ch5, ch6"
+    ],
+    [
+     8,
+     "EOA + code delegation",
+     "EIP-7702: EOA sets 0xef0100 + address and runs that contract's code. Type 0x04 tx.",
+     "changed",
+     "ch14"
+    ],
+    [
+     11,
+     "Frame transactions",
+     "EIP-8141: account runs its own validation. Any signature scheme, incl. post-quantum.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "acct_contract",
+   "layer": "accounts",
+   "label": "Contract account",
+   "x": 450,
+   "y": 64,
+   "w": 380,
+   "h": 74,
+   "ev": [
+    [
+     0,
+     "Contract account",
+     "Code + storage. Runs only when a tx or call reaches it.",
+     "new",
+     "ch7, ch14"
+    ],
+    [
+     2,
+     "CREATE2 + new opcodes",
+     "Counterfactual addresses (EIP-1014). REVERT, STATICCALL.",
+     "changed",
+     "ch14"
+    ],
+    [
+     7,
+     "SELFDESTRUCT restricted",
+     "EIP-6780: code deletion only in the creating tx.",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "Bigger code, transfer logs",
+     "EIP-7954 raises max contract size. EIP-7708: ETH transfers emit a log.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "acct_aa",
+   "layer": "accounts",
+   "label": "Smart accounts",
+   "x": 860,
+   "y": 64,
+   "w": 380,
+   "h": 74,
+   "ev": [
+    [
+     6,
+     "ERC-4337 (app layer)",
+     "UserOps, bundlers, EntryPoint contract. No fork needed.",
+     "new",
+     "ch5"
+    ],
+    [
+     8,
+     "4337 + 7702 together",
+     "An EOA keeps its address and delegates to smart-account code.",
+     "changed",
+     "ch5"
+    ],
+    [
+     11,
+     "Native AA in protocol",
+     "Frame txs move validation into the account. Gas sponsors are native.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "bp_producer",
+   "layer": "production",
+   "label": "Block producer",
+   "x": 40,
+   "y": 190,
+   "w": 380,
+   "h": 74,
+   "ev": [
+    [
+     0,
+     "Miner",
+     "Picks and orders txs, then mines the block with Ethash.",
+     "new",
+     "ch15"
+    ],
+    [
+     5,
+     "Proposer (1 per slot)",
+     "A random validator proposes each 12 s slot. Miners removed.",
+     "changed",
+     "ch15"
+    ],
+    [
+     10,
+     "Proposer commits to a bid",
+     "ePBS: beacon block commits to a builder's payload header.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "bp_builders",
+   "layer": "production",
+   "label": "Builder market",
+   "x": 450,
+   "y": 190,
+   "w": 380,
+   "h": 74,
+   "ev": [
+    [
+     5,
+     "MEV-Boost (off-protocol)",
+     "Builders bid through trusted relays. Most blocks come from a few builders.",
+     "new",
+     "ch14, ch16"
+    ],
+    [
+     10,
+     "ePBS builders (EIP-7732)",
+     "Builders are in-protocol. A Payload Timeliness Committee checks the reveal.",
+     "changed",
+     "ch16"
+    ]
+   ]
+  },
+  {
+   "id": "bp_inclusion",
+   "layer": "production",
+   "label": "Inclusion guarantee",
+   "x": 860,
+   "y": 190,
+   "w": 380,
+   "h": 74,
+   "ev": [
+    [
+     11,
+     "FOCIL (EIP-7805)",
+     "A validator committee lists txs that must go in. Fork choice enforces it.",
+     "new",
+     "ch15"
+    ]
+   ]
+  },
+  {
+   "id": "cl_consensus",
+   "layer": "node",
+   "label": "Consensus",
+   "x": 56,
+   "y": 360,
+   "w": 476,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "Ethash PoW (inside the one client)",
+     "Heaviest chain wins. Difficulty bomb pushes toward PoS.",
+     "new",
+     "ch15"
+    ],
+    [
+     2,
+     "PoW, lower reward",
+     "Block reward 5 → 3 → 2 ETH. Bomb delayed.",
+     "changed",
+     "ch1"
+    ],
+    [
+     4,
+     "Gasper on a parallel chain",
+     "Beacon Chain runs PoS beside PoW. Not linked to execution yet.",
+     "changed",
+     "ch15"
+    ],
+    [
+     5,
+     "Gasper: LMD-GHOST + Casper FFG",
+     "Fork choice + finality gadget. Finality after ~2 epochs (~12.8 min).",
+     "changed",
+     "ch15"
+    ],
+    [
+     9,
+     "Gasper + proposer lookahead",
+     "EIP-7917: proposer schedule fixed one epoch ahead.",
+     "changed",
+     ""
+    ],
+    [
+     12,
+     "Lean consensus",
+     "Fast finality (seconds), shorter slots, post-quantum signatures.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "cl_validators",
+   "layer": "node",
+   "label": "Validators & stake",
+   "x": 56,
+   "y": 432,
+   "w": 476,
+   "h": 62,
+   "ev": [
+    [
+     4,
+     "Validators: 32 ETH deposits",
+     "Deposit contract on the PoW chain. No withdrawals yet.",
+     "new",
+     "ch15"
+    ],
+    [
+     6,
+     "Withdrawals live",
+     "EIP-4895: partial and full withdrawals to EL addresses.",
+     "changed",
+     "ch15"
+    ],
+    [
+     8,
+     "MaxEB 2,048 ETH",
+     "EIP-7251 consolidation. EIP-7002 exits and EIP-6110 deposits from the EL.",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "Faster churn, builder requests",
+     "EIP-8061 churn up. EIP-8282 builder requests. EIP-8045 slashed cannot propose.",
+     "changed",
+     ""
+    ],
+    [
+     12,
+     "Fewer signatures per slot",
+     "Lean design: hash-based PQ signatures, aggregated with SNARKs.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "cl_light",
+   "layer": "node",
+   "label": "Light clients",
+   "x": 56,
+   "y": 504,
+   "w": 476,
+   "h": 62,
+   "ev": [
+    [
+     4,
+     "Sync committees (Altair)",
+     "512 validators sign headers. Light clients follow the chain cheaply.",
+     "new",
+     "ch16"
+    ],
+    [
+     12,
+     "Phone-class full verifiers",
+     "zk proofs + binary tree: verify the chain on a phone.",
+     "changed",
+     "ch14, ch16"
+    ]
+   ]
+  },
+  {
+   "id": "cl_net",
+   "layer": "node",
+   "label": "CL networking",
+   "x": 56,
+   "y": 576,
+   "w": 476,
+   "h": 62,
+   "ev": [
+    [
+     4,
+     "libp2p gossip (beacon)",
+     "Blocks and attestations on a separate P2P stack.",
+     "new",
+     "ch3"
+    ],
+    [
+     7,
+     "+ blob sidecars",
+     "Full blobs travel next to beacon blocks.",
+     "changed",
+     "ch16"
+    ],
+    [
+     9,
+     "+ data column subnets",
+     "PeerDAS: each node custodies some columns and samples others.",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "+ payload attestations",
+     "PTC votes on timely payload reveal (ePBS).",
+     "changed",
+     ""
+    ],
+    [
+     11,
+     "+ inclusion list gossip",
+     "Heze spec: InclusionList messages from the IL committee.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "el_evm",
+   "layer": "node",
+   "label": "EVM",
+   "x": 748,
+   "y": 360,
+   "w": 236,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "EVM stack machine",
+     "256-bit words. Bytecode. Gas per opcode.",
+     "new",
+     "ch14"
+    ],
+    [
+     1,
+     "+ DELEGATECALL",
+     "EIP-7: run callee code in caller context.",
+     "changed",
+     "ch14"
+    ],
+    [
+     2,
+     "+ REVERT, STATICCALL, zk precompiles",
+     "alt_bn128 add, mul, pairing.",
+     "changed",
+     "ch14, ch17"
+    ],
+    [
+     6,
+     "+ PUSH0",
+     "EIP-3855.",
+     "changed",
+     "ch14"
+    ],
+    [
+     7,
+     "+ TSTORE, MCOPY, BLOBHASH",
+     "Transient storage. EVM sees blob hashes, not blobs.",
+     "changed",
+     "ch14"
+    ],
+    [
+     8,
+     "+ BLS12-381 precompile",
+     "EIP-2537. EOF postponed indefinitely.",
+     "changed",
+     "ch14"
+    ],
+    [
+     9,
+     "+ CLZ, secp256r1",
+     "EIP-7939, EIP-7951 (passkey signatures).",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "+ SLOTNUM, SWAPN, DUPN",
+     "EIP-7843, EIP-8024 (deeper stack access).",
+     "changed",
+     "ch14"
+    ],
+    [
+     12,
+     "zkEVM-proven EVM",
+     "Blocks carry proofs. A RISC-V VM is a contested option.",
+     "changed",
+     "ch14, ch17"
+    ]
+   ]
+  },
+  {
+   "id": "el_state",
+   "layer": "node",
+   "label": "State tree",
+   "x": 996,
+   "y": 360,
+   "w": 236,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "Merkle-Patricia trie",
+     "Hexary, Keccak. World state in LevelDB.",
+     "new",
+     "ch1, ch14"
+    ],
+    [
+     8,
+     "MPT + history in state",
+     "EIP-2935: last 8,191 block hashes in a system contract.",
+     "changed",
+     "ch14"
+    ],
+    [
+     12,
+     "Binary tree (EIP-7864)",
+     "Replaces MPT. Shorter proofs. Verkle plan dropped.",
+     "changed",
+     "ch16"
+    ]
+   ]
+  },
+  {
+   "id": "el_exec",
+   "layer": "node",
+   "label": "Block validation",
+   "x": 748,
+   "y": 432,
+   "w": 236,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "Sequential re-execution",
+     "Every node re-runs every tx in order.",
+     "new",
+     "ch14"
+    ],
+    [
+     10,
+     "Parallel via BALs",
+     "EIP-7928: block lists every slot it touches.",
+     "changed",
+     "ch16"
+    ],
+    [
+     12,
+     "Verify a zk proof",
+     "No re-execution. Stateless validators.",
+     "changed",
+     "ch14, ch17"
+    ]
+   ]
+  },
+  {
+   "id": "el_gas",
+   "layer": "node",
+   "label": "Block gas limit",
+   "x": 996,
+   "y": 432,
+   "w": 236,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "5,000 → millions",
+     "Lifted Sep 2015. Miners vote it up.",
+     "new",
+     "ch1, ch14"
+    ],
+    [
+     2,
+     "~8M",
+     "Miner vote.",
+     "changed",
+     "ch16"
+    ],
+    [
+     3,
+     "~10M → 12.5M",
+     "Miner vote.",
+     "changed",
+     "ch16"
+    ],
+    [
+     4,
+     "15M target / 30M max",
+     "EIP-1559 elastic blocks.",
+     "changed",
+     "ch14"
+    ],
+    [
+     8,
+     "36M → 45M",
+     "Validator signalling in 2025.",
+     "changed",
+     "ch16"
+    ],
+    [
+     9,
+     "60M default",
+     "EIP-7935.",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "200M target",
+     "Enabled by BALs + repricing.",
+     "changed",
+     ""
+    ],
+    [
+     12,
+     "Gigagas goal",
+     "~10,000 TPS on L1.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "el_fees",
+   "layer": "node",
+   "label": "Fee market",
+   "x": 748,
+   "y": 504,
+   "w": 236,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "First-price gas auction",
+     "Legacy tx. Fee goes to miner.",
+     "new",
+     "ch6"
+    ],
+    [
+     4,
+     "EIP-1559 base fee burn",
+     "Typed txs 0x01, 0x02. Tip to producer.",
+     "changed",
+     "ch6"
+    ],
+    [
+     7,
+     "Gas + blob gas",
+     "Two base fees. Type 0x03.",
+     "changed",
+     "ch6"
+    ],
+    [
+     8,
+     "Calldata floor (EIP-7623)",
+     "Data-heavy txs pay more.",
+     "changed",
+     "ch14"
+    ],
+    [
+     9,
+     "Tx cap 2^24, blob fee floor",
+     "EIP-7825, EIP-7918.",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "State gas repriced",
+     "EIP-2780, 7778, 7976, 8037, 8038. Contract risk holds Hoodi.",
+     "changed",
+     ""
+    ],
+    [
+     12,
+     "Multidimensional gas",
+     "Price each resource apart.",
+     "changed",
+     "ch16"
+    ]
+   ]
+  },
+  {
+   "id": "el_net",
+   "layer": "node",
+   "label": "EL networking",
+   "x": 996,
+   "y": 504,
+   "w": 236,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "devp2p, port 30303",
+     "Blocks + txs + state sync.",
+     "new",
+     "ch1, ch3"
+    ],
+    [
+     5,
+     "devp2p: txs + state only",
+     "Blocks now arrive from the CL.",
+     "changed",
+     "ch3"
+    ],
+    [
+     9,
+     "Pre-Merge history pruned",
+     "eth/69. History expiry (EIP-4444 path).",
+     "changed",
+     "ch16"
+    ],
+    [
+     10,
+     "eth/70, eth/71, snap/2",
+     "Partial receipts. BAL exchange. BAL-based state healing.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "el_txpool",
+   "layer": "node",
+   "label": "Mempool",
+   "x": 748,
+   "y": 576,
+   "w": 484,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "Public mempool",
+     "Any node gossips pending txs. Producer orders them.",
+     "new",
+     "ch6"
+    ],
+    [
+     5,
+     "Public + private order flow",
+     "Builders buy private flow. MEV extraction.",
+     "changed",
+     "ch15, ch16"
+    ],
+    [
+     9,
+     "+ blobpool (cell proofs)",
+     "Blob txs carry cell proofs for PeerDAS.",
+     "changed",
+     ""
+    ],
+    [
+     10,
+     "+ sparse blobpool (eth/72)",
+     "EIP-8070: nodes keep part of each blob tx.",
+     "changed",
+     ""
+    ],
+    [
+     11,
+     "Mempool feeds inclusion lists",
+     "FOCIL committee picks txs from its local view.",
+     "changed",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "da_data",
+   "layer": "da",
+   "label": "Data lane",
+   "x": 40,
+   "y": 730,
+   "w": 760,
+   "h": 74,
+   "ev": [
+    [
+     0,
+     "Calldata only",
+     "All data sits in execution blocks forever.",
+     "new",
+     "ch16"
+    ],
+    [
+     3,
+     "Cheaper calldata",
+     "EIP-2028: 16 gas per byte. Rollups become viable.",
+     "changed",
+     "ch16"
+    ],
+    [
+     7,
+     "Blobs: target 3 / max 6",
+     "EIP-4844. ~128 KB each, KZG commitment, pruned after ~18 days.",
+     "changed",
+     "ch4, ch16"
+    ],
+    [
+     8,
+     "Blobs: target 6 / max 9",
+     "EIP-7691.",
+     "changed",
+     ""
+    ],
+    [
+     9,
+     "Blobs: 14 / 21 via BPO forks",
+     "PeerDAS + EIP-7892. BPO1 10/15, BPO2 14/21.",
+     "changed",
+     ""
+    ],
+    [
+     12,
+     "Full danksharding",
+     "2D sampling. Many more blobs per slot.",
+     "changed",
+     "ch16"
+    ]
+   ]
+  },
+  {
+   "id": "da_check",
+   "layer": "da",
+   "label": "How nodes check data",
+   "x": 830,
+   "y": 730,
+   "w": 410,
+   "h": 74,
+   "ev": [
+    [
+     0,
+     "Download everything",
+     "Every node gets every byte.",
+     "new",
+     "ch16"
+    ],
+    [
+     7,
+     "Download every blob",
+     "No sampling yet (proto-danksharding).",
+     "changed",
+     "ch16"
+    ],
+    [
+     9,
+     "Sample columns (PeerDAS)",
+     "Custody a subset. Erasure code fills gaps.",
+     "changed",
+     "ch16"
+    ]
+   ]
+  },
+  {
+   "id": "l2",
+   "layer": "l2",
+   "label": "Layer 2",
+   "x": 40,
+   "y": 856,
+   "w": 600,
+   "h": 74,
+   "ev": [
+    [
+     2,
+     "Channels and Plasma",
+     "Early L2 designs. Data stays off-chain.",
+     "new",
+     "ch16"
+    ],
+    [
+     4,
+     "Rollups post calldata",
+     "Optimistic and zk rollups launch.",
+     "changed",
+     "ch16"
+    ],
+    [
+     7,
+     "Rollups post blobs",
+     "L2 fees drop. Blob market separate from gas.",
+     "changed",
+     "ch16"
+    ],
+    [
+     9,
+     "More blob space",
+     "BPO forks scale capacity between named forks.",
+     "changed",
+     ""
+    ],
+    [
+     12,
+     "Native + based rollups",
+     "EXECUTE precompile. L1 sequencing.",
+     "changed",
+     "ch16"
+    ]
+   ]
+  },
+  {
+   "id": "verify",
+   "layer": "l2",
+   "label": "Who verifies what",
+   "x": 660,
+   "y": 856,
+   "w": 580,
+   "h": 74,
+   "ev": [
+    [
+     0,
+     "Full nodes re-execute all",
+     "Full state on disk (~1.2 TB by 2025).",
+     "new",
+     "ch3, ch16"
+    ],
+    [
+     4,
+     "+ light clients",
+     "Sync committees. Helios-style clients.",
+     "changed",
+     "ch16"
+    ],
+    [
+     10,
+     "Builders hold state; parallel checks",
+     "Weak statelessness path: ePBS + BALs.",
+     "changed",
+     "ch14, ch16"
+    ],
+    [
+     12,
+     "Stateless + zk-verified",
+     "Validators keep only the state root.",
+     "changed",
+     "ch14, ch17"
+    ]
+   ]
+  }
+ ],
+ "flows": {
+  "a2b": [
+   [
+    0,
+    12,
+    "signed txs → mempool → producer"
+   ]
+  ],
+  "b2n": [
+   [
+    0,
+    4,
+    "miner seals block (PoW) in the same client"
+   ],
+   [
+    5,
+    9,
+    "proposer gets block from a builder via relay"
+   ],
+   [
+    10,
+    10,
+    "builder bid committed in the beacon block (ePBS)"
+   ],
+   [
+    11,
+    12,
+    "ePBS + inclusion lists enforced by fork choice"
+   ]
+  ],
+  "engine": [
+   [
+    4,
+    4,
+    "not linked yet"
+   ],
+   [
+    5,
+    12,
+    "Engine API"
+   ]
+  ],
+  "n2d": [
+   [
+    0,
+    6,
+    "data in block body (calldata)"
+   ],
+   [
+    7,
+    8,
+    "blob sidecars via CL p2p"
+   ],
+   [
+    9,
+    12,
+    "columns custodied and sampled by peers"
+   ]
+  ],
+  "l2d": [
+   [
+    2,
+    3,
+    "proofs and exits on L1"
+   ],
+   [
+    4,
+    6,
+    "rollups post batches as calldata"
+   ],
+   [
+    7,
+    12,
+    "rollups post batches as blobs"
+   ]
+  ]
+ },
+ "sources": [
+  [
+   "ethereum/execution-specs (EELS fork folders)",
+   "https://github.com/ethereum/execution-specs/tree/HEAD/src/ethereum/forks"
+  ],
+  [
+   "ethereum/consensus-specs (CL fork folders)",
+   "https://github.com/ethereum/consensus-specs/tree/HEAD/specs"
+  ],
+  [
+   "ethereum/execution-apis (Engine API per fork)",
+   "https://github.com/ethereum/execution-apis/tree/HEAD/src/engine"
+  ],
+  [
+   "EIP-7607 Fusaka meta",
+   "https://eips.ethereum.org/EIPS/eip-7607"
+  ],
+  [
+   "EIP-7773 Glamsterdam meta",
+   "https://eips.ethereum.org/EIPS/eip-7773"
+  ],
+  [
+   "EIP-8081 Hegotá meta",
+   "https://eips.ethereum.org/EIPS/eip-8081"
+  ],
+  [
+   "Forkcast upgrade tracker",
+   "https://forkcast.org/"
+  ],
+  [
+   "Mastering Ethereum 2nd ed. (book source)",
+   "https://github.com/Rashmi-278/ethereumbook-animated"
+  ],
+  [
+   "EF: Fusaka mainnet announcement",
+   "https://blog.ethereum.org/2025/11/06/fusaka-mainnet-announcement"
+  ],
+  [
+   "growthepie: Fusaka",
+   "https://www.growthepie.com/quick-bites/fusaka"
+  ],
+  [
+   "ethereum.org: Glamsterdam",
+   "https://ethereum.org/roadmap/glamsterdam/"
+  ],
+  [
+   "Figment: Glamsterdam EIP list",
+   "https://www.figment.io/insights/glamsterdam-what-ethereums-next-upgrade-means-for-institutional-stakers/"
+  ],
+  [
+   "Crowdfund Insider: Hoodi fork delayed (Nov 2026)",
+   "https://www.crowdfundinsider.com/2026/11/322016-ethereum-eth-core-devs-delay-glamsterdam-hoodi-fork-until-smart-contract-gas-risks-are-resolved/"
+  ],
+  [
+   "ethereum.org: Hegotá",
+   "https://ethereum.org/roadmap/hegota/"
+  ],
+  [
+   "The Block: binary tree EIP-7864 + VM plan",
+   "https://theblock.co/post/391681/vitalik-buterin-lays-out-a-two-part-plan-to-overhaul-ethereums-execution-layer-from-the-ground-up"
+  ],
+  [
+   "ForkLog: Lean Ethereum strawmap",
+   "https://forklog.com/en/news/lean-ethereum-what-buterins-strawmap-promises"
+  ]
+ ]
+}

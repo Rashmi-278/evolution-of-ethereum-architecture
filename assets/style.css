@@ -1,0 +1,27 @@
+:root {
+  --bg0: #0B0A1F; --bg1: #16123A; --bg2: #1E1950; --line: rgba(237,235,255,0.12); --line2: rgba(237,235,255,0.22);
+  --text: #EDEBFF; --dim: #9B97C9; --faint: #5E5A8C;
+  --cyan: #38E1D6; --violet: #7C5CFF; --violet2: #A891FF; --gold: #FFC861; --coral: #FF6E8A;
+  --sans: "Space Grotesk", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg0); color: var(--text); font: 16px/1.5 var(--sans); }
+a { color: inherit; }
+.top { display: flex; align-items: center; gap: 24px; padding: 14px 28px; border-bottom: 1px solid var(--line); }
+.brand { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; text-decoration: none; }
+.brand small { display: block; font: 500 11px var(--mono); color: var(--dim); letter-spacing: 0.06em; }
+.nav { margin-left: auto; display: flex; gap: 4px; }
+.nav a { text-decoration: none; color: var(--dim); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 99px; }
+.nav a:hover { color: var(--text); }
+.nav a[aria-current="page"] { color: var(--bg0); background: var(--text); }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 28px; }
+.foot { color: var(--faint); font: 12px var(--mono); padding: 18px 28px 26px; display: flex; gap: 18px; flex-wrap: wrap; }
+.foot a { color: var(--dim); }
+.pill { display: inline-block; font: 600 11px var(--mono); letter-spacing: 0.06em; padding: 3px 9px; border-radius: 99px; border: 1.5px solid; }
+.pill.live { color: var(--cyan); } .pill.testnet, .pill.planned { color: var(--violet2); } .pill.research { color: var(--dim); }
+h1, h2, h3 { letter-spacing: -0.01em; }
+.lede { color: var(--dim); max-width: 760px; }
+.btn { appearance: none; border: 1px solid var(--line2); background: transparent; color: var(--text); font: 600 13px var(--sans); padding: 8px 14px; border-radius: 99px; cursor: pointer; }
+.btn:hover { border-color: var(--text); }
+.btn:focus-visible, .stop:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+@media (max-width: 720px) { .top { padding: 12px 16px; flex-wrap: wrap; } .nav { margin-left: 0; } .wrap { padding: 0 16px; } }
