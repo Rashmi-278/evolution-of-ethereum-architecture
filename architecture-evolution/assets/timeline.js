@@ -9,7 +9,7 @@ window.EEATimeline = function (root, stages, onSelect) {
   const cols = `${lastLive + 1}fr ${(N - lastLive - 1) * 1.5}fr`;
   root.innerHTML = `<div class="tl-groups">
       <div class="tl-g live"><span>Shipped · 2015 → today</span></div>
-      <div class="tl-g up"><span>Upcoming · click to preview ▸</span></div>
+      <div class="tl-g up"></div>
     </div>
     <div class="tl-row"><div class="tl-live"></div><div class="tl-up"></div></div>`;
   root.querySelectorAll(".tl-groups, .tl-row").forEach(el => el.style.gridTemplateColumns = cols);
