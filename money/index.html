@@ -9,7 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
-  h1 { font-size: 32px; margin: 26px 0 4px; }
+  h1 { font-size: 32px; margin: 8px 0 4px; }
+  .credit { margin: 22px 0 0; display: inline-block; font-size: 13.5px; color: var(--brand-dark); background: var(--brand-soft); border: 1px solid #DAC5FC; border-radius: 99px; padding: 5px 14px; }
+  .credit a { font-weight: 600; }
   .sec { font: 600 11px var(--mono); letter-spacing: .1em; color: var(--dim); text-transform: uppercase; margin: 30px 0 12px; }
   .labels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
   .lab { background: #fff; border: 1px solid var(--line2); border-radius: 14px; padding: 16px 16px 14px; position: relative; }
@@ -38,6 +40,7 @@
   <nav class="nav"><a href="../index.html">Architecture</a><a href="index.html" aria-current="page">ETH as an asset</a><a href="../node/index.html">Node, for engineers</a><a href="../data-view/index.html">All data</a></nav>
 </header>
 <main class="wrap">
+  <p class="credit">Based on the post by <a href="https://x.com/yq_acc/status/2121227653441048884">@yq_acc</a> on the five labels for ETH in 12 years. Protocol mechanics added from the EIPs.</p>
   <h1>Five names for ETH in 12 years</h1>
   <p class="lede">The protocol changed how ETH is issued and burned. The story people told about ETH changed with it.</p>
   <div class="sec">The story</div>
@@ -50,7 +53,7 @@
     <div>
       <div class="sec">How to read this</div>
       <p class="note">Each label is a claim about ETH, not a protocol rule. The left column lists the protocol changes that made each claim plausible. Example: EIP-1559 (2021) made supply able to shrink, which gave rise to "ultrasound money".</p>
-      <p class="note" style="border-color:var(--violet2)">The dashed card is still pending. Its year and wording will come from the @yq_acc post this page is based on.</p>
+      <p class="note" style="border-color:var(--violet2)">The dashed card is still pending. Its year and wording will come from the <a href="https://x.com/yq_acc/status/2121227653441048884">@yq_acc post</a>.</p>
     </div>
   </div>
 </main>
