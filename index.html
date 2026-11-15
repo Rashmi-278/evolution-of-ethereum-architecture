@@ -11,25 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <style>
-  .tl { position: relative; margin: 18px 0 6px; padding: 0 6px; }
-  .tl .rail { position: absolute; left: 22px; right: 22px; top: 14px; height: 2px; background: var(--line2); }
-  .stops { position: relative; display: grid; grid-template-columns: repeat(13, 1fr); }
-  .stop { appearance: none; background: none; border: 0; color: var(--dim); cursor: pointer; font: 500 12.5px var(--sans); padding: 0 2px; text-align: center; }
-  .stop i { display: block; width: 14px; height: 14px; margin: 8px auto 8px; border-radius: 50%; background: var(--bg0); border: 2px solid var(--dim); transition: transform .2s; }
-  .stop.testnet i, .stop.planned i { border-style: dashed; border-color: var(--violet2); }
-  .stop.research i { border-style: dotted; }
-  .stop span { display: block; font: 11px var(--mono); color: var(--faint); }
-  .stop.done i { background: var(--brand-soft); border-color: var(--brand); }
-  .stop[aria-current="true"] { color: var(--text); font-weight: 700; }
-  .stop[aria-current="true"] i { background: var(--brand); border-color: var(--brand); transform: scale(1.35); }
-  .stop[aria-current="true"].testnet i, .stop[aria-current="true"].planned i { background: var(--violet2); border-color: var(--violet2); }
-  .today { position: absolute; top: -4px; height: 40px; border-left: 1.5px dashed var(--coral); }
-  .today b { position: absolute; top: -16px; left: -18px; font: 600 10.5px var(--mono); color: var(--coral); white-space: nowrap; }
   .main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; margin-top: 14px; }
   @media (max-width: 1000px) { .main { grid-template-columns: 1fr; } }
   @media (max-width: 760px) {
-    .tl { overflow-x: auto; margin-left: -16px; margin-right: -16px; padding: 18px 16px 4px; }
-    .tl .stops { min-width: 880px; } .tl .rail { min-width: 840px; }
     #dia { overflow-x: auto; margin: 0 -16px; padding: 0 16px; } #dia svg { min-width: 720px; max-height: none; }
     .panel h2 { font-size: 28px; }
   }
@@ -70,16 +54,17 @@
 <body>
 <header class="top">
   <a class="brand" href="index.html">Evolution of Ethereum Architecture<small>BY RWXLABS · CHECKED AGAINST THE SPECS</small></a>
-  <nav class="nav"><a href="index.html" aria-current="page">Architecture</a><a href="money/index.html">ETH as an asset</a><a href="node/index.html">Node, for engineers</a><a href="data-view/index.html">All data</a></nav>
+  <nav class="nav"><a href="index.html" aria-current="page">Architecture</a><a href="money/index.html">ETH as an asset</a><a href="engineers/index.html">Engineers</a><a href="data-view/index.html">All data</a></nav>
 </header>
 <main class="wrap">
-  <div class="tl"><div class="rail"></div><div class="stops" id="stops"></div></div>
+  <div id="tl"></div>
   <div class="main">
     <div id="dia" role="img" aria-live="polite"></div>
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </div>
 </main>
 <footer class="foot" id="foot"></footer>
+<script src="assets/timeline.js"></script>
 <script src="assets/home.js"></script>
 </body>
 </html>

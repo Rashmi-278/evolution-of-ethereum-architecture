@@ -1,0 +1,902 @@
+{
+ "note": "Engineering view per upgrade. Stage indices match architecture.json. ev: [stage, title, sub, sub2]. A component exists from its first event. 'until' = last stage it exists. Ports are client defaults.",
+ "containers": {
+  "vc": {
+   "x": 840,
+   "y": 96,
+   "w": 420,
+   "h": 160,
+   "from": 4,
+   "titles": [
+    [
+     4,
+     "Validator client",
+     "Holds the staker's BLS keys. Never touches the EL."
+    ]
+   ]
+  },
+  "el": {
+   "x": 40,
+   "y": 300,
+   "w": 720,
+   "h": 462,
+   "from": 0,
+   "titles": [
+    [
+     0,
+     "Ethereum client: one program",
+     "Geth, Parity and others"
+    ],
+    [
+     5,
+     "Execution client",
+     "Geth · Nethermind · Besu · Erigon · Reth"
+    ]
+   ]
+  },
+  "cl": {
+   "x": 840,
+   "y": 300,
+   "w": 720,
+   "h": 462,
+   "from": 4,
+   "titles": [
+    [
+     4,
+     "Beacon node: a separate PoS chain",
+     "Runs beside the PoW chain. Not linked yet."
+    ],
+    [
+     5,
+     "Consensus client (beacon node)",
+     "Prysm · Lighthouse · Teku · Nimbus · Lodestar · Grandine"
+    ]
+   ]
+  }
+ },
+ "components": [
+  {
+   "id": "wallets",
+   "g": "ext",
+   "x": 40,
+   "y": 96,
+   "w": 300,
+   "h": 70,
+   "ev": [
+    [
+     0,
+     "Wallets, dApps, indexers",
+     "Send txs, read state"
+    ]
+   ]
+  },
+  {
+   "id": "relays",
+   "g": "ext",
+   "x": 1300,
+   "y": 96,
+   "w": 260,
+   "h": 62,
+   "dash": true,
+   "ev": [
+    [
+     5,
+     "Relays + builders",
+     "Off-protocol block market"
+    ],
+    [
+     10,
+     "Builders, staked in-protocol",
+     "Bid on the P2P network"
+    ]
+   ]
+  },
+  {
+   "id": "mev",
+   "g": "ext",
+   "x": 1300,
+   "y": 180,
+   "w": 260,
+   "h": 62,
+   "dash": true,
+   "ev": [
+    [
+     5,
+     "MEV-Boost sidecar",
+     "Builder API, :18550"
+    ],
+    [
+     10,
+     "MEV-Boost: optional",
+     "ePBS takes over its job"
+    ]
+   ]
+  },
+  {
+   "id": "vc_duty",
+   "g": "vc",
+   "x": 860,
+   "y": 150,
+   "w": 190,
+   "h": 44,
+   "small": true,
+   "ev": [
+    [
+     4,
+     "Duty scheduler"
+    ],
+    [
+     11,
+     "Duties + IL committee"
+    ]
+   ]
+  },
+  {
+   "id": "vc_bls",
+   "g": "vc",
+   "x": 1060,
+   "y": 150,
+   "w": 180,
+   "h": 44,
+   "small": true,
+   "ev": [
+    [
+     4,
+     "BLS signer"
+    ],
+    [
+     12,
+     "Post-quantum signer"
+    ]
+   ]
+  },
+  {
+   "id": "vc_slash",
+   "g": "vc",
+   "x": 860,
+   "y": 202,
+   "w": 380,
+   "h": 44,
+   "small": true,
+   "ev": [
+    [
+     4,
+     "Slashing protection DB"
+    ]
+   ]
+  },
+  {
+   "id": "el_rpc",
+   "g": "el",
+   "x": 60,
+   "y": 352,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     0,
+     "JSON-RPC server",
+     ":8545 HTTP · :8546 WS",
+     "eth_ · net_ · debug_"
+    ]
+   ]
+  },
+  {
+   "id": "el_engine",
+   "g": "el",
+   "x": 410,
+   "y": 352,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     0,
+     "Miner (Ethash)",
+     "Proof of work: searches for a nonce",
+     "~13 s per block"
+    ],
+    [
+     5,
+     "Engine API server",
+     ":8551 · JWT · replaces the miner",
+     "newPayloadV1 · forkchoiceUpdatedV1"
+    ],
+    [
+     6,
+     "Engine API server",
+     ":8551 · JWT",
+     "V2: + withdrawals"
+    ],
+    [
+     7,
+     "Engine API server",
+     ":8551 · JWT",
+     "V3: + blob hashes · getBlobsV1"
+    ],
+    [
+     8,
+     "Engine API server",
+     ":8551 · JWT",
+     "V4: + execution requests"
+    ],
+    [
+     9,
+     "Engine API server",
+     ":8551 · JWT",
+     "getPayloadV5 · getBlobsV2 (cells)"
+    ],
+    [
+     10,
+     "Engine API server",
+     ":8551 · JWT",
+     "newPayloadV5: + access lists"
+    ],
+    [
+     11,
+     "Engine API server",
+     ":8551 · JWT",
+     "+ getInclusionListV1"
+    ]
+   ]
+  },
+  {
+   "id": "el_txpool",
+   "g": "el",
+   "x": 60,
+   "y": 440,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     0,
+     "Txpool",
+     "Pending txs, ordered by gas price"
+    ],
+    [
+     4,
+     "Txpool",
+     "Ordered by tip (EIP-1559)",
+     "types 0x01, 0x02"
+    ],
+    [
+     7,
+     "Txpool + blobpool",
+     "Blob txs (type 0x03)",
+     "blobs held outside the block"
+    ],
+    [
+     8,
+     "Txpool + blobpool",
+     "+ type 0x04 (EIP-7702)",
+     "set-code authorizations"
+    ],
+    [
+     9,
+     "Txpool + blobpool",
+     "Blob txs carry cell proofs",
+     "for PeerDAS"
+    ],
+    [
+     10,
+     "Txpool + sparse blobpool",
+     "EIP-8070: keep part of each blob tx"
+    ]
+   ]
+  },
+  {
+   "id": "el_builder",
+   "g": "el",
+   "x": 410,
+   "y": 440,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     0,
+     "Block assembler",
+     "Miner picks txs by gas price"
+    ],
+    [
+     5,
+     "Payload builder",
+     "Builds a block when the CL asks",
+     "local fallback to MEV-Boost"
+    ],
+    [
+     10,
+     "Payload builder",
+     "Builds the block + access list",
+     "EIP-7928 (BAL)"
+    ]
+   ]
+  },
+  {
+   "id": "el_proc",
+   "g": "el",
+   "x": 60,
+   "y": 528,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     0,
+     "Block processor + EVM",
+     "Runs every tx, one by one",
+     "receipts + logs"
+    ],
+    [
+     10,
+     "Block processor + EVM",
+     "Parallel validation with the BAL",
+     "prefetch state from the list"
+    ],
+    [
+     12,
+     "zk proof verifier",
+     "Checks a proof of the block",
+     "no re-execution"
+    ]
+   ]
+  },
+  {
+   "id": "el_state",
+   "g": "el",
+   "x": 410,
+   "y": 528,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     0,
+     "State",
+     "Merkle-Patricia trie",
+     "state root = 32-byte hash"
+    ],
+    [
+     8,
+     "State",
+     "MPT + block hashes in state",
+     "EIP-2935 system contract"
+    ],
+    [
+     12,
+     "State",
+     "Binary tree (EIP-7864)",
+     "small proofs, stateless nodes"
+    ]
+   ]
+  },
+  {
+   "id": "el_db",
+   "g": "el",
+   "x": 60,
+   "y": 620,
+   "w": 680,
+   "h": 58,
+   "wide": true,
+   "ev": [
+    [
+     0,
+     "Database: LevelDB + ancient store",
+     "Trie nodes, blocks, receipts"
+    ],
+    [
+     9,
+     "Database: Pebble / MDBX + ancient store",
+     "Pre-Merge block history pruned (2025)"
+    ]
+   ]
+  },
+  {
+   "id": "el_p2p",
+   "g": "el",
+   "x": 60,
+   "y": 692,
+   "w": 680,
+   "h": 58,
+   "wide": true,
+   "ev": [
+    [
+     0,
+     "devp2p: discv4 · RLPx · eth/6x   (:30303)",
+     "Gossips txs and blocks"
+    ],
+    [
+     5,
+     "devp2p: eth/66+ · snap/1   (:30303)",
+     "Txs and state only. Blocks now come from the CL."
+    ],
+    [
+     9,
+     "devp2p: eth/69 · snap/1   (:30303)",
+     "Drops pre-Merge history from the protocol"
+    ],
+    [
+     10,
+     "devp2p: eth/70 · eth/71 · snap/2   (:30303)",
+     "Partial receipts, access-list exchange"
+    ]
+   ]
+  },
+  {
+   "id": "cl_engine",
+   "g": "cl",
+   "x": 860,
+   "y": 352,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     4,
+     "Eth1 deposit watcher",
+     "Reads the deposit contract",
+     "via the EL's JSON-RPC"
+    ],
+    [
+     5,
+     "Engine API client",
+     "Drives the EL",
+     "forkchoiceUpdated · newPayload"
+    ],
+    [
+     8,
+     "Engine API client",
+     "Deposits arrive in the block",
+     "EIP-6110: no more polling"
+    ]
+   ]
+  },
+  {
+   "id": "cl_api",
+   "g": "cl",
+   "x": 1210,
+   "y": 352,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     4,
+     "Beacon API (REST)",
+     ":5052 (Lighthouse) · :3500 (Prysm)",
+     "serves the validator client"
+    ]
+   ]
+  },
+  {
+   "id": "cl_fc",
+   "g": "cl",
+   "x": 860,
+   "y": 440,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     4,
+     "Fork choice",
+     "LMD-GHOST picks the head",
+     "Casper FFG finalizes"
+    ],
+    [
+     9,
+     "Fork choice",
+     "+ proposer lookahead (EIP-7917)"
+    ],
+    [
+     10,
+     "Fork choice",
+     "+ payload timeliness votes (PTC)",
+     "ePBS (EIP-7732)"
+    ],
+    [
+     11,
+     "Fork choice",
+     "+ inclusion list checks",
+     "FOCIL (EIP-7805)"
+    ],
+    [
+     12,
+     "Lean consensus",
+     "Fast finality in seconds",
+     "post-quantum signatures"
+    ]
+   ]
+  },
+  {
+   "id": "cl_st",
+   "g": "cl",
+   "x": 1210,
+   "y": 440,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     4,
+     "State transition",
+     "Beacon state, SSZ, 32-slot epochs"
+    ],
+    [
+     6,
+     "State transition",
+     "+ withdrawal sweep (EIP-4895)"
+    ],
+    [
+     8,
+     "State transition",
+     "+ consolidations, 2,048 ETH max",
+     "EIP-7251, EIP-7002"
+    ],
+    [
+     10,
+     "State transition",
+     "+ builder payments",
+     "ePBS"
+    ]
+   ]
+  },
+  {
+   "id": "cl_sync",
+   "g": "cl",
+   "x": 860,
+   "y": 528,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     4,
+     "Sync",
+     "Sync from genesis"
+    ],
+    [
+     5,
+     "Sync",
+     "Checkpoint sync from a trusted root",
+     "backfills history"
+    ]
+   ]
+  },
+  {
+   "id": "cl_blob",
+   "g": "cl",
+   "x": 1210,
+   "y": 528,
+   "w": 330,
+   "h": 78,
+   "ev": [
+    [
+     7,
+     "Blob sidecar store",
+     "Full blobs, pruned after ~18 days"
+    ],
+    [
+     9,
+     "Data column store (PeerDAS)",
+     "Custody some columns, sample others",
+     "pruned after ~18 days"
+    ],
+    [
+     12,
+     "Data column store",
+     "2D sampling (full danksharding)"
+    ]
+   ]
+  },
+  {
+   "id": "cl_db",
+   "g": "cl",
+   "x": 860,
+   "y": 620,
+   "w": 680,
+   "h": 58,
+   "wide": true,
+   "ev": [
+    [
+     4,
+     "Database: beacon blocks, states, attestations",
+     "Finalized states saved as checkpoints"
+    ]
+   ]
+  },
+  {
+   "id": "cl_p2p",
+   "g": "cl",
+   "x": 860,
+   "y": 692,
+   "w": 680,
+   "h": 58,
+   "wide": true,
+   "ev": [
+    [
+     4,
+     "libp2p: discv5 · gossipsub · req/resp   (:9000)",
+     "Topics: beacon_block, beacon_attestation_N"
+    ],
+    [
+     7,
+     "libp2p: + blob_sidecar topics   (:9000)",
+     "Full blobs gossiped next to blocks"
+    ],
+    [
+     9,
+     "libp2p: + data_column_sidecar topics   (:9000)",
+     "Columns, not full blobs (PeerDAS)"
+    ],
+    [
+     10,
+     "libp2p: + payload and PTC topics   (:9000)",
+     "execution_payload, payload_attestation"
+    ],
+    [
+     11,
+     "libp2p: + inclusion_list topic   (:9000)",
+     "FOCIL committee lists"
+    ]
+   ]
+  },
+  {
+   "id": "net_el",
+   "g": "net",
+   "x": 40,
+   "y": 800,
+   "w": 720,
+   "h": 62,
+   "ev": [
+    [
+     0,
+     "Execution P2P network",
+     "Other execution clients"
+    ]
+   ]
+  },
+  {
+   "id": "net_cl",
+   "g": "net",
+   "x": 840,
+   "y": 800,
+   "w": 720,
+   "h": 62,
+   "ev": [
+    [
+     4,
+     "Consensus P2P network",
+     "Other beacon nodes"
+    ]
+   ]
+  }
+ ],
+ "flows": [
+  {
+   "id": "rpc",
+   "from": 0,
+   "line": [
+    360,
+    168,
+    360,
+    350
+   ],
+   "label": [
+    "JSON-RPC",
+    "eth_sendRawTransaction"
+   ],
+   "lx": 372,
+   "ly": 250
+  },
+  {
+   "id": "vcapi",
+   "from": 4,
+   "line": [
+    1230,
+    258,
+    1230,
+    350
+   ],
+   "both": true,
+   "label": [
+    "REST"
+   ],
+   "lx": 1220,
+   "ly": 290,
+   "anchor": "end"
+  },
+  {
+   "id": "mevapi",
+   "from": 5,
+   "line": [
+    1500,
+    244,
+    1500,
+    350
+   ],
+   "both": true,
+   "label": [
+    "bids"
+   ],
+   "lx": 1510,
+   "ly": 290
+  },
+  {
+   "id": "relay",
+   "from": 5,
+   "line": [
+    1430,
+    158,
+    1430,
+    178
+   ],
+   "both": true
+  },
+  {
+   "id": "elnet",
+   "from": 0,
+   "line": [
+    400,
+    764,
+    400,
+    798
+   ],
+   "both": true
+  },
+  {
+   "id": "clnet",
+   "from": 4,
+   "line": [
+    1200,
+    764,
+    1200,
+    798
+   ],
+   "both": true
+  }
+ ],
+ "sequences": [
+  {
+   "from": 0,
+   "title": "Making a block with proof of work (~13 s)",
+   "steps": [
+    [
+     "Pick txs",
+     "Miner sorts the txpool by gas price"
+    ],
+    [
+     "Execute",
+     "EVM runs them, new state root"
+    ],
+    [
+     "Mine",
+     "Search for a nonce (Ethash)"
+    ],
+    [
+     "Gossip",
+     "Block goes out over devp2p"
+    ],
+    [
+     "Re-execute",
+     "Every node re-runs the block"
+    ],
+    [
+     "Heaviest chain",
+     "Forks resolve by total difficulty"
+    ]
+   ]
+  },
+  {
+   "from": 5,
+   "title": "Proposing a block with proof of stake (one 12 s slot)",
+   "steps": [
+    [
+     "Duty",
+     "VC learns it owns this slot"
+    ],
+    [
+     "Prepare",
+     "CL → EL: forkchoiceUpdated + attributes"
+    ],
+    [
+     "Get block",
+     "EL getPayload, or a MEV-Boost bid"
+    ],
+    [
+     "Sign",
+     "VC checks slashing DB, signs (BLS)"
+    ],
+    [
+     "Gossip",
+     "CL broadcasts block (+ blobs/columns)"
+    ],
+    [
+     "Verify",
+     "Peers: newPayload → EL re-executes"
+    ]
+   ]
+  },
+  {
+   "from": 10,
+   "title": "Proposing a block with ePBS (Glamsterdam, testnet)",
+   "steps": [
+    [
+     "Bids",
+     "Staked builders gossip bids"
+    ],
+    [
+     "Commit",
+     "Proposer signs a beacon block with one bid"
+    ],
+    [
+     "Reveal",
+     "Builder publishes the payload + BAL"
+    ],
+    [
+     "PTC vote",
+     "Committee confirms a timely reveal"
+    ],
+    [
+     "Parallel check",
+     "Peers validate with the access list"
+    ],
+    [
+     "Pay",
+     "Builder payment settles on the beacon chain"
+    ]
+   ]
+  },
+  {
+   "from": 11,
+   "title": "Proposing a block with ePBS + FOCIL (Hegotá, planned)",
+   "steps": [
+    [
+     "Lists",
+     "IL committee gossips inclusion lists"
+    ],
+    [
+     "Bids",
+     "Builders bid; blocks must honour the lists"
+    ],
+    [
+     "Commit",
+     "Proposer signs one bid"
+    ],
+    [
+     "Reveal",
+     "Builder publishes payload + BAL"
+    ],
+    [
+     "Check lists",
+     "Attesters reject blocks that skip IL txs"
+    ],
+    [
+     "Verify",
+     "PTC vote, parallel validation"
+    ]
+   ]
+  },
+  {
+   "from": 12,
+   "title": "Proposing a block in the Lean era (research)",
+   "steps": [
+    [
+     "Build",
+     "Builder executes the block"
+    ],
+    [
+     "Prove",
+     "Prover makes a zk proof of the block"
+    ],
+    [
+     "Commit",
+     "Proposer signs the block + proof"
+    ],
+    [
+     "Gossip",
+     "Block, proof and columns go out"
+    ],
+    [
+     "Verify proof",
+     "Validators check the proof, no re-execution"
+    ],
+    [
+     "Finalize",
+     "Fast finality in seconds"
+    ]
+   ]
+  }
+ ]
+}

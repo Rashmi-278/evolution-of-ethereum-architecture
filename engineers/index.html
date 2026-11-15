@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engineers · Evolution of Ethereum Architecture</title>
+<meta name="description" content="An Ethereum node as engineers run it, upgrade by upgrade: execution client, consensus client, validator client, Engine API versions, ports and P2P topics from Frontier to the Lean era.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .head { display: grid; grid-template-columns: 320px 1fr; gap: 28px; margin: 12px 0 14px; align-items: start; }
+  .head h2 { font-size: 30px; margin: 8px 0 2px; line-height: 1.05; }
+  .sub { color: var(--dim); font: 13px var(--mono); }
+  .ctl { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .hd-r h3 { font: 600 11px var(--mono); letter-spacing: .1em; color: var(--dim); margin: 10px 0 8px; text-transform: uppercase; }
+  .hd-r ol { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 28px; }
+  .hd-r li { break-inside: avoid; margin: 0 0 8px; font-size: 14.5px; line-height: 1.4; }
+  .hd-r li em { font-style: normal; font: 600 10.5px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--brand); display: block; }
+  .more { font-size: 13px; color: var(--dim); margin-top: 6px; }
+  .fig { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fff; }
+  #dia svg { display: block; width: 100%; height: auto; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--dim); margin: 0 0 10px; align-items: center; }
+  .legend i { display: inline-block; width: 18px; height: 11px; border-radius: 3px; border: 2px solid; margin-right: 6px; vertical-align: -1px; }
+  @media (max-width: 900px) { .head { grid-template-columns: 1fr; } .hd-r ol { columns: 1; } #dia { overflow-x: auto; } #dia svg { min-width: 980px; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../index.html">Evolution of Ethereum Architecture<small>BY RWXLABS · CHECKED AGAINST THE SPECS</small></a>
+  <nav class="nav"><a href="../index.html">Architecture</a><a href="../money/index.html">ETH as an asset</a><a href="index.html" aria-current="page">Engineers</a><a href="../data-view/index.html">All data</a></nav>
+</header>
+<main class="wrap">
+  <div id="tl"></div>
+  <div class="head" id="head"></div>
+  <div class="legend">
+    <span><i style="border-color:#16A249;background:#F2FDF5"></i>New</span>
+    <span><i style="border-color:#6C24E0;background:#F2EBFF"></i>Changed</span>
+    <span><i style="border-color:#3D4CEB;background:#E5EFFF;border-style:dashed"></i>Upcoming</span>
+    <span><i style="border-color:#8C8C8C;border-style:dotted"></i>Research</span>
+    <span style="margin-left:auto"><button class="btn" id="dl">Download this view as SVG</button></span>
+  </div>
+  <figure class="fig" id="dia"></figure>
+</main>
+<footer class="foot" id="foot"></footer>
+<script src="../assets/timeline.js"></script>
+<script src="../assets/engineers.js"></script>
+</body>
+</html>

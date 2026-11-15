@@ -1,25 +1,14 @@
 (async function () {
   const [A, H, S] = await Promise.all(["data/architecture.json", "data/home.json", "data/status.json"].map(u => fetch(u).then(r => r.json())));
   const N = A.stages.length;
-  const SHORT = { metropolis: "Metropolis", homestead: "Homestead", "beacon-london": "Beacon + London", lean: "Lean era" };
-  const YEAR = { glamsterdam: "2026 · test", hegota: "2027", lean: "2027+", metropolis: "2017–19", homestead: "2016", "beacon-london": "2020–21" };
   const STATUS = { live: "LIVE ON MAINNET", testnet: "ON TESTNET", planned: "PLANNED", research: "RESEARCH" };
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const $ = id => document.getElementById(id);
   let i = A.stages.findIndex(s => s.id === "fusaka"), timer = null;
 
-  // timeline
-  A.stages.forEach((s, j) => {
-    const b = document.createElement("button");
-    b.className = "stop " + s.status; b.dataset.j = j;
-    b.innerHTML = `<i></i>${esc(SHORT[s.id] || s.name)}<span>${esc(YEAR[s.id] || (s.date.match(/\d{4}/) || [""])[0])}</span>`;
-    b.onclick = () => go(j);
-    $("stops").appendChild(b);
-  });
-  const lastLive = A.stages.map(s => s.status).lastIndexOf("live");
-  const today = document.createElement("div"); today.className = "today";
-  today.style.left = `calc(${((lastLive + 1) / N) * 100}% )`; today.innerHTML = `<b>today</b>`;
-  $("stops").appendChild(today);
+  const TL = EEATimeline($("tl"), A.stages, k => { stop(); go(k); });
+  const lastLive = TL.lastLive;
+  i = lastLive;
 
   // diagram skeleton (960 x 480)
   const BL = { accounts: [10, 10, 460, 80], building: [490, 10, 460, 80], consensus: [30, 160, 400, 80], execution: [530, 160, 400, 80],
@@ -80,24 +69,26 @@
     $("l2ln").style.display = at(H.blocks.find(b => b.id === "l2").ev, i) ? "" : "none";
     // panel
     const p = H.plain[i];
+    const pv = fut ? `<div class="preview"><b>Preview</b> ${s.status === "research" ? "Research direction. Nothing is scheduled." : s.status === "testnet" ? "On testnets now. Not on mainnet yet." : "Planned. Scope can still change."}</div>` : "";
     $("panel").innerHTML = `<span class="pill ${s.status}">${STATUS[s.status]}</span>
       <h2>${esc(s.name)}</h2><div class="sub">${esc(s.date)}${s.sub ? " · " + esc(s.sub) : ""}</div>
-      <h3>What changed</h3><ol>${p.lines.map(l => `<li>${esc(l)}</li>`).join("")}</ol>
+      ${pv}<h3>${fut ? "What will change" : "What changed"}</h3><ol>${p.lines.map(l => `<li>${esc(l)}</li>`).join("")}</ol>
       <h3>Why it matters</h3><div class="why">${esc(p.why)}</div>
-      <div class="ctl"><button class="btn" id="pv" aria-label="Previous upgrade">←</button><button class="btn" id="pl">${timer ? "❚❚ Pause" : "▶ Play from 2015"}</button><button class="btn" id="nx" aria-label="Next upgrade">→</button></div>
+      <div class="ctl"><button class="btn" id="pv" aria-label="Previous upgrade">←</button><button class="btn" id="pl">${timer ? "❚❚ Pause" : "▶ Play 2015 → today"}</button><button class="btn" id="nx" aria-label="Next upgrade">→</button></div>
+      ${!fut && i === lastLive && !timer ? `<div class="more"><a href="#${A.stages[lastLive + 1].id}" id="nextup">Preview what comes next: ${esc(A.stages[lastLive + 1].name)} →</a></div>` : ""}
       <div class="more"><a href="data-view/index.html#${s.id}">EIPs, spec folders and sources for ${esc(s.name)} →</a></div>`;
-    $("pv").onclick = () => go(i - 1); $("nx").onclick = () => go(i + 1); $("pl").onclick = play;
+    $("pv").onclick = () => { stop(); go(i - 1); }; $("nx").onclick = () => { stop(); go(i + 1); }; $("pl").onclick = play;
     $("panel").classList.remove("fade"); void $("panel").offsetWidth; $("panel").classList.add("fade");
-    document.querySelectorAll(".stop").forEach(b => { b.setAttribute("aria-current", +b.dataset.j === i); b.classList.toggle("done", +b.dataset.j < i); });
-    if (window.innerWidth < 760) { const cur = document.querySelector('.stop[aria-current="true"]'); const tl = document.querySelector(".tl"); if (cur && tl) tl.scrollLeft = cur.offsetLeft - tl.clientWidth / 2 + cur.offsetWidth / 2; }
+    TL.set(i);
     $("dia").setAttribute("aria-label", `${s.name}: ${p.lines.join(" ")}`);
   }
   function go(j) { i = Math.max(0, Math.min(N - 1, j)); try { history.replaceState(null, "", "#" + A.stages[i].id); } catch (e) {} draw(); }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
   function play() {
-    if (timer) { clearInterval(timer); timer = null; draw(); return; }
-    i = 0; timer = setInterval(() => { if (i >= N - 1) { clearInterval(timer); timer = null; draw(); return; } go(i + 1); }, 3200); go(0);
+    if (timer) { stop(); draw(); return; }
+    timer = setInterval(() => { if (i >= lastLive) { stop(); draw(); return; } go(i + 1); }, 3200); go(0);
   }
-  document.addEventListener("keydown", e => { if (e.key === "ArrowRight") go(i + 1); if (e.key === "ArrowLeft") go(i - 1); });
+  document.addEventListener("keydown", e => { if (e.key === "ArrowRight") { stop(); go(i + 1); } if (e.key === "ArrowLeft") { stop(); go(i - 1); } });
   window.addEventListener("hashchange", () => { const k = A.stages.findIndex(s => s.id === location.hash.slice(1)); if (k >= 0 && k !== i) { i = k; draw(); } });
   const k0 = A.stages.findIndex(s => s.id === location.hash.slice(1)); if (k0 >= 0) i = k0;
   $("foot").innerHTML = `<span>Specs checked: ${esc(S.checked_at)}</span><span>Next mainnet fork date: ${esc(S.next_mainnet || "not set")}</span><a href="https://github.com/Rashmi-278/evolution-of-ethereum-architecture">Source and data on GitHub</a><a href="https://rwxlabs.com">rwxlabs.com</a>`;
