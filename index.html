@@ -8,7 +8,7 @@
 <meta property="og:title" content="Evolution of Ethereum Architecture">
 <meta property="og:description" content="Every Ethereum upgrade, one diagram. Checked daily against the specs.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 <style>
   .tl { position: relative; margin: 18px 0 6px; padding: 0 6px; }
@@ -19,12 +19,12 @@
   .stop.testnet i, .stop.planned i { border-style: dashed; border-color: var(--violet2); }
   .stop.research i { border-style: dotted; }
   .stop span { display: block; font: 11px var(--mono); color: var(--faint); }
-  .stop.done i { background: var(--dim); }
+  .stop.done i { background: var(--brand-soft); border-color: var(--brand); }
   .stop[aria-current="true"] { color: var(--text); font-weight: 700; }
-  .stop[aria-current="true"] i { background: var(--cyan); border-color: var(--cyan); transform: scale(1.35); }
+  .stop[aria-current="true"] i { background: var(--brand); border-color: var(--brand); transform: scale(1.35); }
   .stop[aria-current="true"].testnet i, .stop[aria-current="true"].planned i { background: var(--violet2); border-color: var(--violet2); }
-  .today { position: absolute; top: -4px; height: 40px; border-left: 1.5px dashed var(--gold); }
-  .today b { position: absolute; top: -16px; left: -18px; font: 600 10.5px var(--mono); color: var(--gold); white-space: nowrap; }
+  .today { position: absolute; top: -4px; height: 40px; border-left: 1.5px dashed var(--coral); }
+  .today b { position: absolute; top: -16px; left: -18px; font: 600 10.5px var(--mono); color: var(--coral); white-space: nowrap; }
   .main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; margin-top: 14px; }
   @media (max-width: 1000px) { .main { grid-template-columns: 1fr; } }
   @media (max-width: 760px) {
@@ -39,31 +39,31 @@
   .panel h3 { font: 600 11px var(--mono); letter-spacing: .1em; color: var(--dim); margin: 22px 0 8px; text-transform: uppercase; }
   .panel ol { margin: 0; padding: 0; list-style: none; counter-reset: c; }
   .panel li { counter-increment: c; position: relative; padding-left: 30px; margin: 0 0 10px; font-size: 16px; line-height: 1.4; }
-  .panel li::before { content: counter(c); position: absolute; left: 0; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg2); color: var(--cyan); font: 600 11px/20px var(--mono); text-align: center; }
-  .why { font-size: 16px; color: var(--gold); }
+  .panel li::before { content: counter(c); position: absolute; left: 0; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: var(--bg2); color: var(--brand); font: 600 11px/20px var(--mono); text-align: center; }
+  .why { font-size: 16px; color: var(--brand-dark); font-weight: 500; }
   .ctl { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
   .more { font-size: 13px; color: var(--dim); margin-top: 14px; }
   .fade { animation: fade .45s ease; }
   @keyframes fade { from { opacity: .15; } to { opacity: 1; } }
   /* diagram */
-  .b rect.box { fill: var(--bg1); stroke: var(--line2); stroke-width: 1.2; transition: fill .4s, stroke .4s; }
+  .b rect.box { fill: #FFFFFF; stroke: var(--line2); stroke-width: 1.2; transition: fill .4s, stroke .4s; }
   .b .lab { fill: var(--dim); font: 600 11.5px var(--mono); letter-spacing: .08em; }
   .b .txt { fill: var(--dim); font: 600 19px var(--sans); transition: fill .4s; }
   .b.hot rect.box { stroke-width: 2.2; }
-  .b.new rect.box { stroke: var(--cyan); fill: #10233F; } .b.new .txt { fill: var(--text); }
-  .b.ch rect.box { stroke: var(--gold); fill: #2A2140; } .b.ch .txt { fill: var(--text); }
-  .b.fut rect.box { stroke: var(--violet2); stroke-dasharray: 8 5; fill: #211A55; } .b.fut .txt { fill: var(--text); }
-  .b.res rect.box { stroke: var(--dim); stroke-dasharray: 2 5; fill: #1B1745; } .b.res .txt { fill: var(--text); }
+  .b.new rect.box { stroke: var(--cyan); fill: #F2FDF5; } .b.new .txt { fill: var(--text); }
+  .b.ch rect.box { stroke: var(--gold); fill: #F2EBFF; } .b.ch .txt { fill: var(--text); }
+  .b.fut rect.box { stroke: var(--violet2); stroke-dasharray: 8 5; fill: #E5EFFF; } .b.fut .txt { fill: var(--text); }
+  .b.res rect.box { stroke: var(--dim); stroke-dasharray: 2 5; fill: #F7F7F7; } .b.res .txt { fill: var(--text); }
   .b.off rect.box { fill: none; stroke: var(--line); stroke-dasharray: 3 6; } .b.off .txt { fill: var(--faint); }
-  .badge rect { fill: var(--cyan); } .badge text { fill: var(--bg0); font: 700 10px var(--mono); letter-spacing: .06em; }
-  .b.ch .badge rect { fill: var(--gold); } .b.fut .badge rect { fill: var(--violet2); } .b.res .badge rect { fill: var(--dim); }
-  .nodebox { fill: none; stroke: var(--line2); stroke-width: 1.2; }
+  .badge rect { fill: var(--cyan); } .badge text { fill: #fff; font: 700 10px var(--mono); letter-spacing: .06em; }
+  .b.ch .badge rect { fill: var(--brand); } .b.fut .badge rect { fill: var(--violet2); } .b.res .badge rect { fill: var(--dim); }
+  .nodebox { fill: var(--bg1); stroke: var(--line2); stroke-width: 1.2; }
   .nodelab { fill: var(--text); font: 600 15px var(--sans); }
   .ln { stroke: var(--dim); stroke-width: 1.6; fill: none; }
   .lnl { fill: var(--dim); font: 500 12px var(--mono); }
   .sq { stroke-width: 1.2; transition: fill .4s; }
-  .sq.t { fill: var(--cyan); stroke: var(--cyan); } .sq.m { fill: rgba(56,225,214,.25); stroke: var(--cyan); } .sq.e { fill: none; stroke: var(--line2); }
-  .gas-bg { fill: var(--bg2); } .gas-fg { fill: var(--gold); transition: width .6s ease; }
+  .sq.t { fill: var(--brand); stroke: var(--brand); } .sq.m { fill: #DAC5FC; stroke: var(--brand); } .sq.e { fill: none; stroke: var(--line2); }
+  .gas-bg { fill: var(--bg2); } .gas-fg { fill: var(--brand); transition: width .6s ease; }
   .meta { fill: var(--dim); font: 500 12px var(--mono); }
 </style>
 </head>

@@ -24,8 +24,8 @@
   // diagram skeleton (960 x 480)
   const BL = { accounts: [10, 10, 460, 80], building: [490, 10, 460, 80], consensus: [30, 160, 400, 80], execution: [530, 160, 400, 80],
     state: [530, 252, 400, 80], data: [10, 378, 620, 116], l2: [650, 378, 300, 116] };
-  let svg = `<svg viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg" font-family="Space Grotesk, sans-serif">
-  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9B97C9"/></marker></defs>
+  let svg = `<svg viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#616161"/></marker></defs>
   <rect class="nodebox" x="10" y="118" width="940" height="232" rx="16"/>
   <text class="nodelab" id="nodelab" x="30" y="146"></text>
   <line class="ln" x1="240" y1="92" x2="240" y2="116" marker-end="url(#ah)"/><line class="ln" x1="720" y1="92" x2="720" y2="116" marker-end="url(#ah)"/>
@@ -64,7 +64,7 @@
         t.classList.remove("fade"); void t.getBBox(); t.classList.add("fade");
       } else $("g-" + b.id).setAttribute("opacity", 0);
     }
-    const nl = at(H.node, i); $("nodelab").textContent = nl ? nl[1] : ""; $("nodelab").style.fill = nl && nl[0] === i && i > 0 ? (fut ? "var(--violet2)" : "var(--gold)") : "";
+    const nl = at(H.node, i); $("nodelab").textContent = nl ? nl[1] : ""; $("nodelab").style.fill = nl && nl[0] === i && i > 0 ? (fut ? "var(--violet2)" : "var(--brand)") : "";
     $("engt").textContent = i >= 5 ? "Engine API" : i === 4 ? "not linked" : "one program";
     $("engl").style.display = i >= 4 ? "" : "none"; $("engl").style.strokeDasharray = i === 4 ? "4 4" : "";
     // gas

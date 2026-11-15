@@ -6,17 +6,17 @@
 <title>All data · Evolution of Ethereum Architecture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
-:root { --bg:#0B0A1F; --ink:#EDEBFF; --muted:#9B97C9; --line:rgba(237,235,255,0.14); --panel:#16123A; --node:#1E1950; --nw:#38E1D6; --ch:#FFC861; --pl:#A891FF; --rs:#9B97C9; }
+:root { --bg:#FFFFFF; --ink:#121212; --muted:#616161; --line:#DEDEDE; --panel:#FFFFFF; --node:#F7F7F7; --nw:#16A249; --ch:#6C24E0; --pl:#3D4CEB; --rs:#8C8C8C; }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 'Space Grotesk', system-ui, sans-serif; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 'Inter', system-ui, sans-serif; }
   .wrap { max-width: 1480px; margin: 0 auto; padding: 28px 28px 60px; }
   h1 { font-size: 28px; line-height:1.15; margin: 0 0 6px; letter-spacing:-0.01em; }
   .lede { color: var(--muted); margin: 0 0 18px; max-width: 900px; }
   .lede a { color: inherit; }
-  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .mono { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
 
   /* timeline */
   .tl { position: relative; display:grid; grid-template-columns: repeat(13, minmax(0,1fr)); gap: 4px; margin: 8px 0 4px; }
@@ -24,17 +24,17 @@
   .era span { font-size: 10.5px; font-weight:700; letter-spacing: .09em; color: var(--muted); background: var(--node); border:1px solid var(--line); border-radius: 5px; padding: 2px 8px; white-space: nowrap; overflow:hidden; text-overflow:ellipsis; }
   .stop { appearance:none; border:1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 9px; padding: 8px 8px 7px; text-align:left; cursor:pointer; min-height: 62px; font: inherit; position:relative; }
   .stop b { display:block; font-size: 12.5px; line-height:1.2; }
-  .stop small { display:block; font-size: 10.5px; color: var(--muted); margin-top: 3px; font-family:'JetBrains Mono', monospace; line-height:1.25; }
+  .stop small { display:block; font-size: 10.5px; color: var(--muted); margin-top: 3px; font-family:'IBM Plex Mono', monospace; line-height:1.25; }
   .stop.testnet, .stop.planned { border-style: dashed; border-color: var(--pl); }
   .stop.research { border-style: dotted; border-color: var(--rs); }
-  .stop[aria-current="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .stop[aria-current="true"] { background: #6C24E0; color: #fff; border-color: #6C24E0; }
   .stop[aria-current="true"] small { color: var(--bg); opacity: .8; }
   .stop:focus-visible { outline: 2px solid var(--pl); outline-offset: 2px; }
   .now { position:absolute; top:-12px; bottom:-6px; width:0; border-left: 1.5px dashed var(--ink); }
   .now span { position:absolute; top:-6px; left:6px; font-size: 10.5px; font-weight:700; white-space:nowrap; background: var(--bg); padding: 0 4px; }
 
   .bar { display:flex; gap:8px; align-items:center; margin: 16px 0 12px; flex-wrap: wrap; }
-  .btn { appearance:none; border:1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 7px 13px; font: 600 13px 'Space Grotesk', sans-serif; cursor:pointer; }
+  .btn { appearance:none; border:1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 7px 13px; font: 600 13px 'Inter', sans-serif; cursor:pointer; }
   .btn:hover { border-color: var(--muted); }
   .legend { display:flex; gap: 14px; margin-left:auto; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; }
   .legend i { display:inline-block; width: 18px; height: 11px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; border: 1.8px solid; }
@@ -48,7 +48,7 @@
   aside { background: var(--panel); border:1px solid var(--line); border-radius: 14px; padding: 18px 18px 14px; position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow:auto; }
   aside h2 { font-size: 21px; margin: 0; line-height:1.2; }
   aside .sub { color: var(--muted); font-size: 13px; margin: 2px 0 10px; }
-  .pill { display:inline-block; font: 700 10.5px 'JetBrains Mono', monospace; letter-spacing:.06em; padding: 3px 8px; border-radius: 99px; border:1.5px solid; margin-right: 6px; }
+  .pill { display:inline-block; font: 700 10.5px 'IBM Plex Mono', monospace; letter-spacing:.06em; padding: 3px 8px; border-radius: 99px; border:1.5px solid; margin-right: 6px; }
   .pill.live { color: var(--nw); } .pill.testnet, .pill.planned { color: var(--pl); } .pill.research { color: var(--rs); }
   aside h3 { font-size: 11px; letter-spacing: .1em; color: var(--muted); margin: 16px 0 6px; text-transform: uppercase; }
   aside ol { margin: 0; padding-left: 20px; } aside li { margin: 3px 0; font-size: 14px; }
@@ -57,7 +57,7 @@
   .hist { list-style:none; padding:0 !important; }
   .hist li { display:grid; grid-template-columns: 96px 1fr; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 13px; cursor:pointer; }
   .hist li.cur { font-weight: 600; }
-  .hist li .when { font: 11px 'JetBrains Mono', monospace; color: var(--muted); padding-top: 2px; }
+  .hist li .when { font: 11px 'IBM Plex Mono', monospace; color: var(--muted); padding-top: 2px; }
   .hist li em { display:block; font-style: normal; color: var(--muted); font-weight: 400; font-size: 12.5px; }
   .close { float:right; }
 
@@ -68,7 +68,7 @@
   table { border-collapse: collapse; font-size: 12px; min-width: 1500px; width:100%; }
   th, td { border-bottom: 1px solid var(--line); padding: 6px 7px; vertical-align: top; text-align:left; }
   thead th { position: sticky; top:0; background: var(--panel); cursor:pointer; font-size: 12px; line-height:1.2; }
-  thead th small { display:block; font: 10px 'JetBrains Mono', monospace; color: var(--muted); font-weight: 400; margin-top: 2px; }
+  thead th small { display:block; font: 10px 'IBM Plex Mono', monospace; color: var(--muted); font-weight: 400; margin-top: 2px; }
   th.rowh { width: 150px; font-weight: 600; position: sticky; left: 0; background: var(--panel); z-index: 1; }
   tr.layer td { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; color: var(--muted); background: var(--node); text-transform: uppercase; }
   td.c { min-width: 100px; cursor:pointer; }
@@ -81,7 +81,7 @@
   .cur-col { outline: 2px solid var(--ink); outline-offset: -2px; }
   .chips a { color: inherit; text-decoration: none; } .chips a:hover { text-decoration: underline; }
   .specl { margin: 8px 0 4px; padding-left: 18px; font-size: 12.5px; } .small { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
-  tr.spec td { font: 11px 'JetBrains Mono', monospace; }
+  tr.spec td { font: 11px 'IBM Plex Mono', monospace; }
   footer { margin-top: 30px; font-size: 13px; color: var(--muted); }
   footer ol { padding-left: 20px; } footer a { color: var(--ink); }
   .toast { margin-left: 4px; font-size: 12.5px; color: var(--nw); }
@@ -419,13 +419,13 @@ const DATA = {
 
 // Pure string renderers. Work in the browser and in Node.
 const PALETTES = {
-  light: { bg: "#fbfaf7", ink: "#1d1c1a", muted: "#6e6a63", faint: "#b9b4aa", line: "#dcd7cd", panel: "#ffffff",
-    node: "#f2efe8", nw: "#0e8565", ch: "#b86f00", pl: "#6a4bd1", rs: "#7d7871" },
+  light: { bg: "#FFFFFF", ink: "#121212", muted: "#616161", faint: "#8C8C8C", line: "#DEDEDE", panel: "#FFFFFF",
+    node: "#F7F7F7", nw: "#16A249", ch: "#6C24E0", pl: "#3D4CEB", rs: "#8C8C8C" },
   dark: { bg: "#0B0A1F", ink: "#EDEBFF", muted: "#9B97C9", faint: "#5E5A8C", line: "#2E2A5E", panel: "#16123A",
     node: "#1E1950", nw: "#38E1D6", ch: "#FFC861", pl: "#A891FF", rs: "#9B97C9" }
 };
-const FONT = "'Space Grotesk', 'Segoe UI', system-ui, sans-serif";
-const MONO = "'JetBrains Mono', ui-monospace, monospace";
+const FONT = "'Inter', 'Segoe UI', system-ui, sans-serif";
+const MONO = "'IBM Plex Mono', ui-monospace, monospace";
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
@@ -650,7 +650,7 @@ function renderMatrix(D, P) {
 (function () {
   const D = DATA, N = D.stages.length;
   const mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-  const pal = () => PALETTES.dark;
+  const pal = () => PALETTES.light;
   let i = 9, sel = null, timer = null;
   const $ = id => document.getElementById(id);
   const label = { live: "LIVE ON MAINNET", testnet: "ON TESTNET", planned: "PLANNED", research: "RESEARCH" };

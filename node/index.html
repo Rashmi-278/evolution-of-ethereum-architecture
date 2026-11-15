@@ -6,7 +6,7 @@
 <title>Node, for engineers · Evolution of Ethereum Architecture</title>
 <meta name="description" content="An Ethereum node as engineers deploy it: execution client, consensus client, validator client, Engine API, ports, and one block proposal step by step.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
   h1 { font-size: 32px; margin: 26px 0 4px; }
@@ -24,8 +24,8 @@
 <main class="wrap">
   <h1>An Ethereum node, as engineers run it</h1>
   <p class="lede">Three processes, one authenticated link between them, two P2P networks. The strip at the bottom shows one 12-second slot. Ports are client defaults. State: mainnet after Fusaka.</p>
-  <div class="row"><a class="btn" href="../assets/node-light.svg" download>Download SVG (light)</a><a class="btn" href="../assets/node-dark.svg" download>Download SVG (dark)</a><span>Based on Mastering Ethereum ch3, ch14, ch15 and the execution-apis Engine API specs.</span></div>
-  <figure class="fig"><img src="../assets/node-dark.svg" alt="Ethereum node engineering view: wallets call the execution client over JSON-RPC on port 8545; the consensus client drives the execution client over the Engine API on port 8551 with JWT; the validator client holds BLS keys and talks to the beacon node over the REST Beacon API; MEV-Boost connects to relays and builders; devp2p on port 30303 and libp2p on port 9000 connect to peers."></figure>
+  <div class="row"><a class="btn" href="../assets/node-light.svg" download>Download SVG</a><span>Based on Mastering Ethereum ch3, ch14, ch15 and the execution-apis Engine API specs.</span></div>
+  <figure class="fig"><img src="../assets/node-light.svg" alt="Ethereum node engineering view: wallets call the execution client over JSON-RPC on port 8545; the consensus client drives the execution client over the Engine API on port 8551 with JWT; the validator client holds BLS keys and talks to the beacon node over the REST Beacon API; MEV-Boost connects to relays and builders; devp2p on port 30303 and libp2p on port 9000 connect to peers."></figure>
 </main>
 <footer class="foot"><a href="../index.html">← Architecture</a></footer>
 </body>
